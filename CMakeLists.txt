@@ -15,12 +15,12 @@ add_subdirectory(Drivers/STM32CubeH7)
 
 include_directories(
         Src
+        Src/Display
 )
 
 file(GLOB_RECURSE SOURCES
-        Src/main.c
-        Src/stm32h7xx_it.c
-        Src/system.c
+        Src/main.cpp
+        Src/Display/Display.cpp
 )
 
 add_executable(${PROJECT_NAME}
