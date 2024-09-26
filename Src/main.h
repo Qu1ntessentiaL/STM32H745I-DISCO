@@ -1,7 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include "stm32h7xx_hal.h"
+#include "stm32h7xx.h"
 #include "Display/Display.h"
 
 #ifdef  USE_FULL_ASSERT

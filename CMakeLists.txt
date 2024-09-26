@@ -11,7 +11,9 @@ include(toolchains/iar/stm32_toolchain_iar.cmake)
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32H745xx -DCORE_CM7)
 
-add_subdirectory(Drivers/STM32CubeH7)
+# add_subdirectory(Drivers/BSP/STM32H745I-DISCO)
+add_subdirectory(Drivers/CMSIS)
+add_subdirectory(Drivers/STM32H7xx_HAL_Driver)
 
 include_directories(
         Src
@@ -55,7 +57,7 @@ add_subdirectory(${FREERTOS_KERNEL_PATH} FreeRTOS-Kernel)
 # -----------------------------------------
 
 # stm32h7xx_hal_driver заменить на cmsis, если нет надобности в HAL
-target_link_libraries(${PROJECT_NAME} PRIVATE stm32h7xx_hal_driver freertos_kernel freertos_config)
+target_link_libraries(${PROJECT_NAME} PRIVATE bsp stm32h7xx_hal_driver freertos_kernel freertos_config)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND
         ${CMAKE_IAR_ELFTOOL} --silent --ihex $<TARGET_FILE:${PROJECT_NAME}> $<IF:$<BOOL:$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>>,$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>,$<TARGET_PROPERTY:${PROJECT_NAME},NAME>>.hex)
