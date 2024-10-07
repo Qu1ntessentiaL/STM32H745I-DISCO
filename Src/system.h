@@ -5,29 +5,16 @@
 #define VCP_TX_Pin GPIO_PIN_10
 #define VCP_RX_Pin GPIO_PIN_11
 
-#include <string>
 #include "stm32h7xx.h"
 
 void SystemClock_Config();
 
-void PeriphCommonClock_Config();
+void USART3_Init();
 
-class uart {
-public:
-    uart(UART_HandleTypeDef uart_handle);
+void USART3_SendMessage(const char *str);
 
-    ~uart();
+extern "C" void I2C4_Init();
 
-    UART_HandleTypeDef *get_handler();
 
-    void send_message(const char *str);
-
-private:
-    UART_HandleTypeDef huart{};
-
-    void Error_Handler();
-};
-
-void UART_VCP_Init();
 
 #endif //SYSTEM_H

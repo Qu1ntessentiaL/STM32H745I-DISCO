@@ -4,6 +4,7 @@
 #include "stm32h7xx.h"
 #include "system.h"
 #include "Display/Display.h"
+#include "IIC/IIC.h"
 #include "TouchScreen/TouchScreen.h"
 
 #ifdef  USE_FULL_ASSERT

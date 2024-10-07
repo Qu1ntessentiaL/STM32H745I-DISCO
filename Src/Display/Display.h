@@ -10,11 +10,11 @@
 
 class Display {
 public:
-    explicit Display(LTDC_HandleTypeDef ltdcHandle);
+    explicit Display(LTDC_HandleTypeDef &ltdcHandle);
 
     ~Display();
 
-    LTDC_HandleTypeDef hltdc;
+    LTDC_HandleTypeDef hltdc{};
 
 private:
     void Error_Handler() {}

@@ -17,6 +17,7 @@ add_subdirectory(Drivers/STM32H7xx_HAL_Driver)
 
 include_directories(
         Src
+        Src/IIC
         Src/Display
         Src/TouchScreen
 )
@@ -25,6 +26,7 @@ file(GLOB_RECURSE SOURCES
         Src/main.cpp
         Src/system.cpp
         Src/stm32h7xx_it.cpp
+        Src/IIC/IIC.cpp
         Src/Display/Display.cpp
         Src/TouchScreen/TouchScreen.cpp
 )
