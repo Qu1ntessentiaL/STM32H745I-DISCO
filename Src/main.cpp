@@ -3,6 +3,7 @@
 UART_HandleTypeDef huart3;
 I2C_HandleTypeDef hi2c4;
 
+uint16_t meas_value = 0;
 IIC twi(hi2c4);
 
 int main() {
@@ -11,10 +12,10 @@ int main() {
     USART3_Init();
     BSP_LED_Init(LED_RED);
     BSP_LED_Init(LED_GREEN);
+    twi.SendCMD(IIC::START_GAS, 0);
     while (1) {
-        BSP_LED_Toggle(LED_RED);
-        BSP_LED_Toggle(LED_GREEN);
-        twi.SendCMD(IIC::START_GAS, 0);
-        HAL_Delay(2000);
+        twi.ReadREQ(IIC::GET_STATE, meas_value);
+        USART3_SendNumber(meas_value);
+        HAL_Delay(1000);
     }
 }

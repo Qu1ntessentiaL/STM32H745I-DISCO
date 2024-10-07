@@ -13,8 +13,9 @@ void USART3_Init();
 
 void USART3_SendMessage(const char *str);
 
-extern "C" void I2C4_Init();
+void USART3_SendNumber(uint16_t number);
 
+extern "C" void I2C4_Init();
 
 
 #endif //SYSTEM_H

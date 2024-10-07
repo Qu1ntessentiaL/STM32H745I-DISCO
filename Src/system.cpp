@@ -83,6 +83,12 @@ void USART3_SendMessage(const char *str) {
     HAL_UART_Transmit_IT(&huart3, (uint8_t *) str, length);
 }
 
+void USART3_SendNumber(uint16_t number) {
+    char buffer[20];
+    int length = sprintf(buffer, "%hu\r\n", number);
+    HAL_UART_Transmit_IT(&huart3, (uint8_t *) buffer, length);
+}
+
 void I2C4_Init(void) {
     hi2c4.Instance = I2C4;
     hi2c4.Init.Timing = 0x307077B2;

@@ -1,8 +1,12 @@
 #include "IIC.h"
 
 /// Инициализация статической переменной
-IIC* IIC::Instance = nullptr;
-uint8_t ack_resp = 0;
+IIC *IIC::Instance = nullptr;
+
+uint8_t twi_state = 0;    /// Флаг принадлежности посылки (CMD или REQ)
+uint8_t ack_resp = 0; /// Ответ платы управления (CRC8 или 0)
+
+void (*cbFunc)(I2C_HandleTypeDef *) = nullptr; /// Указатель на функцию обратного вызова
 
 void IIC::Error_Handler() {
 
@@ -75,6 +79,8 @@ IIC::~IIC() {
     HAL_NVIC_DisableIRQ(I2C4_EV_IRQn);
 }
 
+//typedef uint8_t (*)(InsuffCmdEnum cmd, uint16_t value);
+
 /**
  *
  * @brief Функция, передающая по I2C плате управления команды и параметры
@@ -96,8 +102,8 @@ void IIC::SendCMD(InsuffCmdEnum cmd, uint16_t value) {
 
     data_tx[3] = crc8(data_crc, sizeof(data_crc));
 
-    //HAL_I2C_Master_Transmit_IT(&m_hi2c, CTRL_BRD_I2C_ADDR, data_tx, sizeof(data_tx));
     HAL_I2C_Master_Seq_Transmit_IT(&m_hi2c, CTRL_BRD_I2C_ADDR, data_tx, sizeof(data_tx), I2C_FIRST_FRAME);
+    twi_state = 1;
 }
 
 /**
@@ -116,21 +122,22 @@ void IIC::ReadREQ(InsuffReqEnum req, uint16_t &value) {
         return;
     }
 
-    HAL_I2C_Master_Transmit(&m_hi2c, CTRL_BRD_I2C_ADDR, data_tx, 2, HAL_MAX_DELAY);
-
-    HAL_I2C_Master_Receive(&m_hi2c, CTRL_BRD_I2C_ADDR, data_rx, 3, HAL_MAX_DELAY);
-
+    HAL_I2C_Master_Seq_Transmit_IT(&m_hi2c, CTRL_BRD_I2C_ADDR, data_tx, 2, I2C_FIRST_FRAME);
+    //HAL_Delay(10);
+    HAL_I2C_Master_Seq_Receive_IT(&m_hi2c, CTRL_BRD_I2C_ADDR, data_rx, 3, I2C_LAST_FRAME);
+    //HAL_Delay(50);
     data_rx[3] = data_rx[2];
     data_rx[2] = data_rx[1];
     data_rx[1] = data_rx[0];
     data_rx[0] = CTRL_BRD_I2C_ADDR;
-
+    /*
     if (!crc8(data_rx, sizeof(data_rx))) {
-        value = (static_cast<uint16_t>(data_rx[1]) << 8) | static_cast<uint16_t>(data_rx[0]);
+        value = (static_cast<uint16_t>(data_rx[2]) << 8) | static_cast<uint16_t>(data_rx[1]);
     } else {
         return;
     }
-
+    */
+    value = (static_cast<uint16_t>(data_rx[2]) << 8) | static_cast<uint16_t>(data_rx[1]);
 }
 
 extern "C" void I2C4_EV_IRQHandler(void) {
