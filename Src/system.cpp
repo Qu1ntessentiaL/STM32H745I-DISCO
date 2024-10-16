@@ -1,7 +1,6 @@
 #include "system.h"
 #include <cstring>
 #include <cstdio>
-#include <cstdarg>
 
 extern UART_HandleTypeDef huart3;
 extern I2C_HandleTypeDef hi2c4;
@@ -80,7 +79,7 @@ void USART3_SendMessage(const char *str) {
         return;
     }
     uint16_t length = strlen(str);
-    HAL_UART_Transmit_IT(&huart3, (uint8_t *) str, length);
+    HAL_UART_Transmit(&huart3, (uint8_t *) str, length, 1000);
 }
 
 void USART3_SendNumber(uint16_t number) {

@@ -3,6 +3,7 @@
 
 #include "stm32h7xx.h"
 #include "system.h"
+#include "stm32h745i_discovery_conf.h"
 #include "stm32h745i_discovery.h"
 #include "stm32h745i_discovery_bus.h"
 #include "stm32h745i_discovery_lcd.h"
@@ -20,18 +21,25 @@ public:
 
     void BSP_TS_Callback_Handler(uint32_t Instance);
 
-    /// Статический callback
-    static void BSP_TS_Callback(uint32_t Instance) {
-        USART3_SendMessage("BSP_TS_Callback has been called!\n\r");
-        if (m_Instance != nullptr) {
-            m_Instance->BSP_TS_Callback_Handler(Instance);
-        }
-    }
+    void TS_Config(uint32_t Width, uint32_t Height, uint32_t Orientation, uint32_t Accuracy);
+
+    void HandleDoubleTap(uint16_t x, uint16_t y);
+
 
 private:
-    TS_Init_t m_ts{};
-
     static void Error_Handler();
+
+    /// C-структура для инициализации сенсорной панели
+    TS_Init_t m_ts_init{};
+    /// C-структура одиночного касания
+#if (USE_TS_MULTI_TOUCH == 0U)
+    TS_State_t m_ts_single{};
+    inline void GetLastTouchCoordinates(uint16_t &x, uint16_t &y) const;
+    inline void UpdateLastTouchCoordinates(uint16_t x, uint16_t y);
+#endif
+    /// C-структура множественных касаний
+    TS_MultiTouch_State_t m_ts_multi{};
+
 };
 
 #endif //TOUCHSCREEN_H

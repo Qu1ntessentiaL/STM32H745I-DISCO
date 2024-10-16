@@ -17,6 +17,8 @@ void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
 void USART3_IRQHandler(void);
+/// Реализации следующих функций добавил в .cpp-файлы соответствующих классов
+void I2C4_EV_IRQHandler(void);
 void EXTI2_IRQHandler(void);
 
 #ifdef __cplusplus

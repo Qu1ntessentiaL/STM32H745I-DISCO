@@ -48,8 +48,8 @@
 #define USE_TS_GESTURE                      1U
 #define USE_TS_MULTI_TOUCH                  1U
 
-/* Default TS touch number */
-#define TS_TOUCH_NBR                        2U
+/* Default TS touch number (up to 5 points) */
+#define TS_TOUCH_NBR                        5U
 
 
 
@@ -61,7 +61,7 @@
 #define BSP_SD_IT_PRIORITY                  14U
 #define BSP_SD_RX_IT_PRIORITY               14U
 #define BSP_SD_TX_IT_PRIORITY               15U
-#define BSP_TS_IT_PRIORITY                  15U
+#define BSP_TS_IT_PRIORITY                  1U
 
 #ifdef __cplusplus
 }
