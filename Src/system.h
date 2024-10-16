@@ -7,6 +7,8 @@
 
 #include "stm32h7xx.h"
 
+extern "C" void MPU_Config(void);
+
 void SystemClock_Config();
 
 void USART3_Init();

@@ -1,4 +1,5 @@
 .idea
 CubeGen
+doxygen
 cmake-build-debug-iar
 cmake-build-release-iar

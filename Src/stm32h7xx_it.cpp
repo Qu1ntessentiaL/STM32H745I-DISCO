@@ -37,22 +37,3 @@ void SysTick_Handler(void) {
 void USART3_IRQHandler(void) {
     HAL_UART_IRQHandler(&huart3);
 }
-/*
-void I2C4_EV_IRQHandler(void) {
-    HAL_I2C_EV_IRQHandler(&hi2c4);
-}
-
-void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c) {
-    uint8_t data[10];
-    if (hi2c->Instance == hi2c4.Instance) {
-        HAL_I2C_Master_Seq_Receive_IT(hi2c, CTRL_BRD_I2C_ADDR, data, sizeof(data), I2C_LAST_FRAME);
-    }
-}
-
-void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c) {
-    uint8_t data[10];
-    if (hi2c->Instance == hi2c4.Instance) {
-        HAL_I2C_Master_Seq_Receive_IT(hi2c, CTRL_BRD_I2C_ADDR, data, sizeof(data), I2C_LAST_FRAME);
-    }
-}
-*/
