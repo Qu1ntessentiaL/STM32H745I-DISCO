@@ -88,7 +88,7 @@ void USART3_SendNumber(uint16_t number) {
     HAL_UART_Transmit_IT(&huart3, (uint8_t *) buffer, length);
 }
 
-void I2C4_Init(void) {
+void I2C4_Init() {
     hi2c4.Instance = I2C4;
     hi2c4.Init.Timing = 0x307077B2;
     hi2c4.Init.OwnAddress1 = 176;

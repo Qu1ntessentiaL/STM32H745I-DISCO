@@ -202,7 +202,7 @@ uint32_t Y0;
 uint32_t Y1;
 uint32_t PixelFormat;
 uint32_t Address;
-}MX_LTDC_LayerConfig_t;
+} MX_LTDC_LayerConfig_t;
 
 #define BSP_LCD_LayerConfig_t MX_LTDC_LayerConfig_t
 
@@ -223,7 +223,7 @@ typedef struct
 extern const LCD_UTILS_Drv_t LCD_Driver;
 extern DMA2D_HandleTypeDef hlcd_dma2d;
 extern LTDC_HandleTypeDef  hlcd_ltdc;
-extern BSP_LCD_Ctx_t       LcdCtx[];
+extern BSP_LCD_Ctx_t       Lcd_Ctx[];
 
 /**
   * @}

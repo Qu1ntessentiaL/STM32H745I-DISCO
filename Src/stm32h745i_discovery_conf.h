@@ -51,8 +51,6 @@
 /* Default TS touch number (up to 5 points) */
 #define TS_TOUCH_NBR                        5U
 
-
-
 /* IRQ priorities */
 #define BSP_SDRAM_IT_PRIORITY               15U
 #define BSP_BUTTON_USER_IT_PRIORITY         15U

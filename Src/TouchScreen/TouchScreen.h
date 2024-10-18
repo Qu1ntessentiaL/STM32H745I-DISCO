@@ -15,20 +15,6 @@ class TouchScreen {
 public:
     static TouchScreen *m_Instance;
 
-    TouchScreen();
-
-    ~TouchScreen();
-
-    void BSP_TS_Callback_Handler(uint32_t Instance);
-
-    void TS_Config(uint32_t Width, uint32_t Height, uint32_t Orientation, uint32_t Accuracy);
-
-    void HandleDoubleTap(uint16_t x, uint16_t y);
-
-
-private:
-    static void Error_Handler();
-
     /// C-структура для инициализации сенсорной панели
     TS_Init_t m_ts_init{};
     /// C-структура одиночного касания
@@ -40,6 +26,18 @@ private:
     /// C-структура множественных касаний
     TS_MultiTouch_State_t m_ts_multi{};
 
+    TouchScreen();
+
+    ~TouchScreen();
+
+    void BSP_TS_Callback_Handler(uint32_t Instance);
+
+    void TS_Config(uint32_t Width, uint32_t Height, uint32_t Orientation, uint32_t Accuracy);
+
+    void HandleDoubleTap(uint16_t x, uint16_t y);
+
+private:
+    static void Error_Handler();
 };
 
 #endif //TOUCHSCREEN_H

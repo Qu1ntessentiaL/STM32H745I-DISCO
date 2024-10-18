@@ -32,8 +32,13 @@ void PendSV_Handler(void) {}
 
 void SysTick_Handler(void) {
     HAL_IncTick();
+    lv_tick_inc(1);
 }
 
 void USART3_IRQHandler(void) {
     HAL_UART_IRQHandler(&huart3);
+}
+
+void MDMA_IRQHandler(void) {
+    BSP_SDRAM_IRQHandler(0);
 }

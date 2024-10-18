@@ -1,22 +1,20 @@
 #ifndef LTDC_H
 #define LTDC_H
 
-#include <cstdlib>
 #include "stm32h7xx.h"
+#include "system.h"
 #include "stm32h745i_discovery.h"
 #include "stm32h745i_discovery_lcd.h"
-// #include "lvgl.h"
 
-#define LCD_DISP_Pin GPIO_PIN_15
-#define LCD_DISP_GPIO_Port GPIOJ
+#define LCD_INSTANCE (LCD_INSTANCES_NBR - 1)
 
 class Display {
 public:
-    explicit Display(LTDC_HandleTypeDef &ltdcHandle);
+    explicit Display();
 
     ~Display();
 
-    LTDC_HandleTypeDef hltdc{};
+    void DrawObjects();
 
 private:
     void Error_Handler() {}

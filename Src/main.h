@@ -3,6 +3,10 @@
 
 #include "stm32h7xx.h"
 #include "system.h"
+#include "lvgl.h"
+#include "lv_port_disp.h"
+#include "lv_port_fs.h"
+#include "stm32h745i_discovery_sdram.h"
 #include "Display/Display.h"
 #include "IIC/IIC.h"
 #include "TouchScreen/TouchScreen.h"

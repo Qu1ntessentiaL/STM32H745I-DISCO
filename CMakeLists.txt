@@ -14,12 +14,14 @@ add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32H745xx -DCORE_CM7)
 add_subdirectory(Drivers/BSP)
 add_subdirectory(Drivers/CMSIS)
 add_subdirectory(Drivers/STM32H7xx_HAL_Driver)
+add_subdirectory(Drivers/lvgl)
 
 include_directories(
         Src
         Src/IIC
         Src/Display
         Src/TouchScreen
+        Src/lv_port
 )
 
 file(GLOB_RECURSE SOURCES
@@ -29,6 +31,7 @@ file(GLOB_RECURSE SOURCES
         Src/IIC/IIC.cpp
         Src/Display/Display.cpp
         Src/TouchScreen/TouchScreen.cpp
+        Src/lv_port/*.c
 )
 
 add_executable(${PROJECT_NAME}
@@ -63,7 +66,7 @@ add_subdirectory(${FREERTOS_KERNEL_PATH} FreeRTOS-Kernel)
 # -----------------------------------------
 
 # stm32h7xx_hal_driver заменить на cmsis, если нет надобности в HAL
-target_link_libraries(${PROJECT_NAME} PRIVATE bsp)
+target_link_libraries(${PROJECT_NAME} PRIVATE bsp lvgl lvgl_demos lvgl_examples)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND
         ${CMAKE_IAR_ELFTOOL} --silent --ihex $<TARGET_FILE:${PROJECT_NAME}> $<IF:$<BOOL:$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>>,$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>,$<TARGET_PROPERTY:${PROJECT_NAME},NAME>>.hex)
