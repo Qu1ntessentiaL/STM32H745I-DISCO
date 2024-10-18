@@ -66,6 +66,8 @@ void USART3_Init() {
     if (HAL_UARTEx_SetTxFifoThreshold(&huart3, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK) {}
     if (HAL_UARTEx_SetRxFifoThreshold(&huart3, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK) {}
     if (HAL_UARTEx_DisableFifoMode(&huart3) != HAL_OK) {}
+
+    USART3_SendMessage("______________________________Reset MCU!______________________________\n\r");
 }
 
 /**

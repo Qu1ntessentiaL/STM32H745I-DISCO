@@ -19,8 +19,7 @@ add_subdirectory(Drivers/lvgl)
 include_directories(
         Src
         Src/IIC
-        Src/Display
-        Src/TouchScreen
+        Src/BSP_Periph
         Src/lv_port
 )
 
@@ -29,8 +28,7 @@ file(GLOB_RECURSE SOURCES
         Src/system.cpp
         Src/stm32h7xx_it.cpp
         Src/IIC/IIC.cpp
-        Src/Display/Display.cpp
-        Src/TouchScreen/TouchScreen.cpp
+        Src/BSP_Periph/*.cpp
         Src/lv_port/*.c
 )
 

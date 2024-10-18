@@ -2,22 +2,18 @@
 #define LTDC_H
 
 #include "stm32h7xx.h"
-#include "system.h"
-#include "stm32h745i_discovery.h"
 #include "stm32h745i_discovery_lcd.h"
+#include "BSP_Common.h"
 
 #define LCD_INSTANCE (LCD_INSTANCES_NBR - 1)
 
-class Display {
+class Display : public BSP_Common {
 public:
     explicit Display();
 
     ~Display();
 
     void DrawObjects();
-
-private:
-    void Error_Handler() {}
 };
 
 #endif //LTDC_H

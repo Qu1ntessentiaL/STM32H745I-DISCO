@@ -9,6 +9,7 @@ add_library(bsp STATIC
         STM32H745I-DISCO/stm32h745i_discovery_lcd.c
         STM32H745I-DISCO/stm32h745i_discovery_ts.c
         STM32H745I-DISCO/stm32h745i_discovery_sdram.c
+        STM32H745I-DISCO/stm32h745i_discovery_qspi.c
 )
 
 target_include_directories(bsp PUBLIC
@@ -16,6 +17,7 @@ target_include_directories(bsp PUBLIC
         Components/rk043fn48h
         Components/ft5336
         Components/mt48lc4m32b2
+        Components/mt25tl01g
         STM32H745I-DISCO
 )
 

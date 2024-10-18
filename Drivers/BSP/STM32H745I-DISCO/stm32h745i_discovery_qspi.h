@@ -87,13 +87,13 @@ typedef struct
   uint32_t ClockPrescaler;
   uint32_t SampleShifting;
   uint32_t DualFlashMode;
-}MX_QSPI_Init_t;
+} MX_QSPI_Init_t;
 #if (USE_HAL_QSPI_REGISTER_CALLBACKS == 1)
 typedef struct
 {
  void(*pMspInitCb)(pQSPI_CallbackTypeDef);
  void(*pMspDeInitCb)(pQSPI_CallbackTypeDef);
-}BSP_QSPI_Cb_t;
+} BSP_QSPI_Cb_t;
 #endif /* (USE_HAL_QSPI_REGISTER_CALLBACKS == 1) */
 
 /**

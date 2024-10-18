@@ -19,7 +19,9 @@ Display::Display() {
 }
 
 Display::~Display() {
-
+    if (BSP_LCD_DeInit(LCD_INSTANCE) != BSP_ERROR_NONE) {
+        Error_Handler();
+    }
 }
 
 void Display::DrawObjects() {

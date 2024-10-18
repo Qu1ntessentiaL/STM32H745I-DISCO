@@ -39,10 +39,6 @@ TouchScreen::~TouchScreen() {
     }
 }
 
-void TouchScreen::Error_Handler() {
-    USART3_SendMessage("Error_Handler() has been called!\n\r");
-}
-
 #if (USE_TS_MULTI_TOUCH == 0U)
 /// Реализация метода для обработки касаний
 void TouchScreen::BSP_TS_Callback_Handler(uint32_t Instance) {
@@ -72,24 +68,7 @@ void TouchScreen::BSP_TS_Callback_Handler(uint32_t Instance) {
 
 /// Реализация метода для обработки касаний
 void TouchScreen::BSP_TS_Callback_Handler(uint32_t Instance) {
-    int32_t state = BSP_ERROR_NONE;
-    state = BSP_TS_Get_MultiTouchState(Instance, &m_ts_multi);
-    switch (state) {
-        case BSP_ERROR_NONE :
-            USART3_SendMessage("BSP_ERROR_NONE\n\r");
-            break;
-        case BSP_ERROR_NO_INIT :
-            USART3_SendMessage("BSP_ERROR_NO_INIT\n\r");
-            break;
-        case BSP_ERROR_WRONG_PARAM :
-            USART3_SendMessage("BSP_ERROR_WRONG_PARAM\n\r");
-            break;
-        case BSP_ERROR_COMPONENT_FAILURE :
-            USART3_SendMessage("BSP_ERROR_COMPONENT_FAILURE\n\r");
-            break;
-        default :
-            break;
-    }
+    CheckState(BSP_TS_Get_MultiTouchState(Instance, &m_ts_multi));
 }
 
 /**
@@ -119,31 +98,15 @@ void TouchScreen::TS_Config(uint32_t Width = TS_MAX_WIDTH,
                             uint32_t Height = TS_MAX_HEIGHT,
                             uint32_t Orientation = TS_SWAP_XY,
                             uint32_t Accuracy = 5) {
-    int32_t state = BSP_ERROR_NONE;
 
     m_ts_init.Width = Width;
     m_ts_init.Height = Height;
     m_ts_init.Orientation = Orientation;
     m_ts_init.Accuracy = Accuracy;
 
-    state = BSP_TS_Init(TS_INSTANCE, &m_ts_init);
-    switch (state) {
-        case BSP_ERROR_NONE :
-            USART3_SendMessage("BSP_ERROR_NONE\n\r");
-            break;
-        case BSP_ERROR_NO_INIT :
-            USART3_SendMessage("BSP_ERROR_NO_INIT\n\r");
-            break;
-        case BSP_ERROR_WRONG_PARAM :
-            USART3_SendMessage("BSP_ERROR_WRONG_PARAM\n\r");
-            break;
-        case BSP_ERROR_COMPONENT_FAILURE :
-            USART3_SendMessage("BSP_ERROR_COMPONENT_FAILURE\n\r");
-            break;
-        default :
-            break;
-    }
+    CheckState(BSP_TS_Init(TS_INSTANCE, &m_ts_init));
 }
+
 #if (USE_TS_MULTI_TOUCH == 0U)
 inline void TouchScreen::GetLastTouchCoordinates(uint16_t &x, uint16_t &y) const {
     x = m_ts_single.TouchX;

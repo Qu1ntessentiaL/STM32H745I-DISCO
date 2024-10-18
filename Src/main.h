@@ -7,9 +7,10 @@
 #include "lv_port_disp.h"
 #include "lv_port_fs.h"
 #include "stm32h745i_discovery_sdram.h"
-#include "Display/Display.h"
+#include "stm32h745i_discovery_qspi.h"
+#include "BSP_Periph/Display.h"
+#include "BSP_Periph/TouchScreen.h"
 #include "IIC/IIC.h"
-#include "TouchScreen/TouchScreen.h"
 
 #ifdef  USE_FULL_ASSERT
 void assert_failed(uint8_t *file, uint32_t line) {}
