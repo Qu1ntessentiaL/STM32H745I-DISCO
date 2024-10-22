@@ -2,8 +2,6 @@
 #include <cstring>
 #include <cstdio>
 
-extern UART_HandleTypeDef huart3;
-
 /// Инициализация статического указателя
 TouchScreen *TouchScreen::m_Instance = nullptr;
 
@@ -16,20 +14,20 @@ TouchScreen::TouchScreen() {
     m_ts_init.Orientation = TS_SWAP_XY;
     m_ts_init.Accuracy = 15;
     if (BSP_TS_Init(TS_INSTANCE, &m_ts_init) != BSP_ERROR_NONE) {
-        USART3_SendMessage("TS Init failed!\n\r");
+        SendMessage("TS Init failed!\n\r");
         Error_Handler();
     } else {
-        USART3_SendMessage("TS successfully initialized!\n\r");
+        SendMessage("TS successfully initialized!\n\r");
     }
 
     /// BSP_TS_EnableIT(...) не включает тактирование PG2!
     __HAL_RCC_GPIOG_CLK_ENABLE();
 
     if (BSP_TS_EnableIT(TS_INSTANCE) != BSP_ERROR_NONE) {
-        USART3_SendMessage("TS EnableIT failed!\n\r");
+        SendMessage("TS EnableIT failed!\n\r");
         Error_Handler();
     } else {
-        USART3_SendMessage("TS Interrupts enabled!\n\r");
+        SendMessage("TS Interrupts enabled!\n\r");
     }
 }
 
@@ -79,7 +77,7 @@ void TouchScreen::BSP_TS_Callback_Handler(uint32_t Instance) {
  */
 
 extern "C" void EXTI2_IRQHandler(void) {
-    USART3_SendMessage("EXTI2_IRQHandler has been called!\n\r");
+    //SendMessage("EXTI2_IRQHandler has been called!\n\r");
     BSP_TS_IRQHandler(TS_INSTANCE);
 }
 

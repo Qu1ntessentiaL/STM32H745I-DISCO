@@ -3,15 +3,21 @@
 
 #include "stm32h7xx.h"
 #include "system.h"
+#include "dma.h"
+#include "usart.h"
 #include "stm32h745i_discovery.h"
 #include "stm32h745i_discovery_conf.h"
 #include "stm32h745i_discovery_errno.h"
 
 class BSP_Common {
-protected:
-    static void CheckState(int32_t state);
+public:
+    BSP_Common();
 
-    static void Error_Handler();
+    void CheckState(int32_t state);
+
+    void Error_Handler();
+
+    void SendMessage(const char *str);
 };
 
 #endif //BSP_COMMON_H
