@@ -2,7 +2,6 @@
 #define BSP_COMMON_H
 
 #include "stm32h7xx.h"
-#include "system.h"
 #include "dma.h"
 #include "usart.h"
 #include "stm32h745i_discovery.h"

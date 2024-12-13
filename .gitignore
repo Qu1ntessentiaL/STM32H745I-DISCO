@@ -1,5 +1,5 @@
-.idea
-CubeGen
-doxygen
-cmake-build-debug-iar
-cmake-build-release-iar
+.idea/
+CubeGen/CM4/
+CubeGen/Drivers/
+doxygen/
+cmake-build-*/

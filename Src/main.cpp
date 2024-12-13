@@ -1,23 +1,23 @@
+#include "stm32h7xx.h"
 #include "main.h"
+#include "lvgl.h"
+#include "lv_port_disp.h"
+#include "lv_port_fs.h"
+#include "stm32h745i_discovery_sdram.h"
+#include "stm32h745i_discovery_qspi.h"
+#include "BSP_Periph/Display.h"
+#include "BSP_Periph/TouchScreen.h"
+#include "IIC/IIC.h"
+
+extern "C" void SystemClock_Config(void);
+extern "C" void Error_Handler(void);
 
 int main() {
     HAL_Init();
     SystemClock_Config();
-    BSP_Common com;
-    Display disp;
     BSP_LED_Init(LED_RED);
     BSP_LED_Init(LED_GREEN);
-    /*
-    BSP_QSPI_Init_t qspi_init;
-    qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;
-    qspi_init.TransferRate = MT25TL01G_DTR_TRANSFER;
-    qspi_init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
-    BSP_QSPI_Init(0, &qspi_init);
-    BSP_QSPI_EnableMemoryMappedMode(0);
-    */
-    disp.DrawObjects();
     while (1) {
-        com.SendMessage("77\n\r");
         BSP_LED_Toggle(LED_GREEN);
         HAL_Delay(1000);
     }

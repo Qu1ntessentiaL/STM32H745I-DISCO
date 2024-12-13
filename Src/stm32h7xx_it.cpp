@@ -1,4 +1,3 @@
-#include "main.h"
 #include "stm32h7xx_it.h"
 
 extern DMA_HandleTypeDef hdma_i2c4_rx;
@@ -36,7 +35,6 @@ void PendSV_Handler(void) {}
 
 void SysTick_Handler(void) {
     HAL_IncTick();
-    lv_tick_inc(1);
 }
 
 void DMA1_Stream0_IRQHandler(void) {
@@ -67,5 +65,5 @@ void BDMA_Channel1_IRQHandler(void) {
 */
 
 void MDMA_IRQHandler(void) {
-    BSP_SDRAM_IRQHandler(0);
+    //BSP_SDRAM_IRQHandler(0);
 }

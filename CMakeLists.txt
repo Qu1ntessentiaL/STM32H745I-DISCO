@@ -11,6 +11,7 @@ include(toolchains/iar/stm32_toolchain_iar.cmake)
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32H745xx -DCORE_CM7)
 
+add_subdirectory(CubeMX/CM7/Core)
 add_subdirectory(Drivers/BSP)
 add_subdirectory(Drivers/CMSIS)
 add_subdirectory(Drivers/STM32H7xx_HAL_Driver)
@@ -29,7 +30,6 @@ file(GLOB_RECURSE SOURCES
         Src/stm32h7xx_it.cpp
         Src/IIC/IIC.cpp
         Src/BSP_Periph/*.cpp
-        Src/BSP_Periph/*.c
         Src/lv_port/*.c
 )
 
@@ -56,7 +56,7 @@ if (DEFINED FREERTOS_SMP_EXAMPLE AND FREERTOS_SMP_EXAMPLE STREQUAL "1")
     add_compile_options(-DconfigNUMBER_OF_CORES=2 -DconfigUSE_PASSIVE_IDLE_HOOK=0)
 endif ()
 
-set(FREERTOS_HEAP "1" CACHE STRING "" FORCE)
+set(FREERTOS_HEAP "4" CACHE STRING "" FORCE)
 
 set(FREERTOS_PORT "IAR_ARM_CM7" CACHE STRING "" FORCE)
 
@@ -65,7 +65,7 @@ add_subdirectory(${FREERTOS_KERNEL_PATH} FreeRTOS-Kernel)
 # -----------------------------------------
 
 # stm32h7xx_hal_driver заменить на cmsis, если нет надобности в HAL
-target_link_libraries(${PROJECT_NAME} PRIVATE bsp lvgl)
+target_link_libraries(${PROJECT_NAME} PRIVATE cubemx bsp lvgl)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND
         ${CMAKE_IAR_ELFTOOL} --silent --ihex $<TARGET_FILE:${PROJECT_NAME}> $<IF:$<BOOL:$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>>,$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>,$<TARGET_PROPERTY:${PROJECT_NAME},NAME>>.hex)
