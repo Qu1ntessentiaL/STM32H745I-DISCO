@@ -2,26 +2,22 @@
 
 Display::Display() {
     if (BSP_LCD_Init(LCD_INSTANCE, LCD_ORIENTATION_LANDSCAPE) != BSP_ERROR_NONE) {
-        SendMessage("LCD Init failed!\n\r");
-        Error_Handler();
+        printf("LCD Init failed!\n\r");
     } else {
-        SendMessage("LCD successfully initialized!\n\r");
+        printf("LCD successfully initialized!\n\r");
     }
 
     if (BSP_LCD_DisplayOn(LCD_INSTANCE) != BSP_ERROR_NONE) {
-        SendMessage("LCD don't turn on!\n\r");
-        Error_Handler();
+        printf("LCD don't turn on!\n\r");
     } else {
-        SendMessage("LCD turn on!\n\r");
+        printf("LCD turn on!\n\r");
     }
 
     BSP_LCD_SetActiveLayer(0, 0);
 }
 
 Display::~Display() {
-    if (BSP_LCD_DeInit(LCD_INSTANCE) != BSP_ERROR_NONE) {
-        Error_Handler();
-    }
+    if (BSP_LCD_DeInit(LCD_INSTANCE) != BSP_ERROR_NONE) {}
 }
 
 void Display::DrawObjects() {

@@ -9,7 +9,7 @@
 
 #define TS_INSTANCE (TS_INSTANCES_NBR - 1)
 
-class TouchScreen : public BSP_Common {
+class TouchScreen {
 public:
     static TouchScreen *m_Instance;
 

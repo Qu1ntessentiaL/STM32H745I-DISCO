@@ -14,20 +14,20 @@ TouchScreen::TouchScreen() {
     m_ts_init.Orientation = TS_SWAP_XY;
     m_ts_init.Accuracy = 15;
     if (BSP_TS_Init(TS_INSTANCE, &m_ts_init) != BSP_ERROR_NONE) {
-        SendMessage("TS Init failed!\n\r");
+        printf("TS Init failed!\n\r");
         Error_Handler();
     } else {
-        SendMessage("TS successfully initialized!\n\r");
+        printf("TS successfully initialized!\n\r");
     }
 
     /// BSP_TS_EnableIT(...) не включает тактирование PG2!
     __HAL_RCC_GPIOG_CLK_ENABLE();
 
     if (BSP_TS_EnableIT(TS_INSTANCE) != BSP_ERROR_NONE) {
-        SendMessage("TS EnableIT failed!\n\r");
+        printf("TS EnableIT failed!\n\r");
         Error_Handler();
     } else {
-        SendMessage("TS Interrupts enabled!\n\r");
+        printf("TS Interrupts enabled!\n\r");
     }
 }
 
@@ -66,7 +66,7 @@ void TouchScreen::BSP_TS_Callback_Handler(uint32_t Instance) {
 
 /// Реализация метода для обработки касаний
 void TouchScreen::BSP_TS_Callback_Handler(uint32_t Instance) {
-    CheckState(BSP_TS_Get_MultiTouchState(Instance, &m_ts_multi));
+    BSP_TS_Get_MultiTouchState(Instance, &m_ts_multi);
 }
 
 /**
@@ -102,7 +102,7 @@ void TouchScreen::TS_Config(uint32_t Width = TS_MAX_WIDTH,
     m_ts_init.Orientation = Orientation;
     m_ts_init.Accuracy = Accuracy;
 
-    CheckState(BSP_TS_Init(TS_INSTANCE, &m_ts_init));
+    BSP_TS_Init(TS_INSTANCE, &m_ts_init);
 }
 
 #if (USE_TS_MULTI_TOUCH == 0U)

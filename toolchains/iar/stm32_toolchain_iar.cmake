@@ -17,6 +17,6 @@ set(CMAKE_ASM_FLAGS "--cpu=Cortex-M7 --fpu=VFPv4 -s+ -r -t8")
 
 set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 
-set(COMMON_LINKER_FLAGS "--semihosting --config ${LINKER_SCRIPT}")
+set(COMMON_LINKER_FLAGS "--config ${LINKER_SCRIPT}")
 set(CMAKE_C_LINK_FLAGS "${COMMON_LINKER_FLAGS}")
 set(CMAKE_CXX_LINK_FLAGS "${COMMON_LINKER_FLAGS}")
