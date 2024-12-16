@@ -1,5 +1,5 @@
 .idea/
-CubeGen/CM4/
-CubeGen/Drivers/
+CubeMX/CM4/
+CubeMX/Drivers/
 doxygen/
 cmake-build-*/

@@ -7,8 +7,8 @@ file(GLOB_RECURSE ALL_C_SOURCES "Src/*.c")
 
 # Исключить некоторые файлы
 list(REMOVE_ITEM ALL_C_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/Src/syscalls.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/Src/sysmem.c
+        # ${CMAKE_CURRENT_SOURCE_DIR}/Src/syscalls.c
+        # ${CMAKE_CURRENT_SOURCE_DIR}/Src/sysmem.c
 )
 
 add_library(cubemx STATIC
