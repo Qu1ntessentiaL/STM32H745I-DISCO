@@ -15,7 +15,7 @@ TouchScreen::TouchScreen() {
     m_ts_init.Accuracy = 15;
     if (BSP_TS_Init(TS_INSTANCE, &m_ts_init) != BSP_ERROR_NONE) {
         printf("TS Init failed!\n\r");
-        Error_Handler();
+        //Error_Handler();
     } else {
         printf("TS successfully initialized!\n\r");
     }
@@ -25,7 +25,7 @@ TouchScreen::TouchScreen() {
 
     if (BSP_TS_EnableIT(TS_INSTANCE) != BSP_ERROR_NONE) {
         printf("TS EnableIT failed!\n\r");
-        Error_Handler();
+        //Error_Handler();
     } else {
         printf("TS Interrupts enabled!\n\r");
     }
@@ -33,7 +33,7 @@ TouchScreen::TouchScreen() {
 
 TouchScreen::~TouchScreen() {
     if (BSP_TS_DeInit(TS_INSTANCE) != BSP_ERROR_NONE) {
-        Error_Handler();
+        //Error_Handler();
     }
 }
 

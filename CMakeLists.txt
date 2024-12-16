@@ -65,7 +65,7 @@ add_subdirectory(${FREERTOS_KERNEL_PATH} FreeRTOS-Kernel)
 # -----------------------------------------
 
 # stm32h7xx_hal_driver заменить на cmsis, если нет надобности в HAL
-target_link_libraries(${PROJECT_NAME} PRIVATE cubemx bsp lvgl lv_project)
+target_link_libraries(${PROJECT_NAME} PRIVATE cubemx lv_project lvgl_demos lvgl_examples)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND
         ${CMAKE_IAR_ELFTOOL} --silent --ihex $<TARGET_FILE:${PROJECT_NAME}> $<IF:$<BOOL:$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>>,$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>,$<TARGET_PROPERTY:${PROJECT_NAME},NAME>>.hex)

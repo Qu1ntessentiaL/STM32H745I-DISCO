@@ -3,12 +3,14 @@
 Display::Display() {
     if (BSP_LCD_Init(LCD_INSTANCE, LCD_ORIENTATION_LANDSCAPE) != BSP_ERROR_NONE) {
         printf("LCD Init failed!\n\r");
+        //Error_Handler();
     } else {
         printf("LCD successfully initialized!\n\r");
     }
 
     if (BSP_LCD_DisplayOn(LCD_INSTANCE) != BSP_ERROR_NONE) {
         printf("LCD don't turn on!\n\r");
+        //Error_Handler();
     } else {
         printf("LCD turn on!\n\r");
     }
@@ -17,7 +19,9 @@ Display::Display() {
 }
 
 Display::~Display() {
-    if (BSP_LCD_DeInit(LCD_INSTANCE) != BSP_ERROR_NONE) {}
+    if (BSP_LCD_DeInit(LCD_INSTANCE) != BSP_ERROR_NONE) {
+        //Error_Handler();
+    }
 }
 
 void Display::DrawObjects() {

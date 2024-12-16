@@ -5,7 +5,6 @@
 #include "stm32h745i_discovery_bus.h"
 #include "stm32h745i_discovery_lcd.h"
 #include "stm32h745i_discovery_ts.h"
-#include "BSP_Common.h"
 
 #define TS_INSTANCE (TS_INSTANCES_NBR - 1)
 

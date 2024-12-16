@@ -55,12 +55,8 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern I2C_HandleTypeDef hi2c4;
 extern MDMA_HandleTypeDef hmdma_mdma_channel0_sw_0;
-extern TIM_HandleTypeDef htim17;
-extern DMA_HandleTypeDef hdma_usart3_rx;
-extern DMA_HandleTypeDef hdma_usart3_tx;
-extern UART_HandleTypeDef huart3;
+extern QSPI_HandleTypeDef hqspi;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -204,73 +200,31 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles DMA1 stream0 global interrupt.
+  * @brief This function handles EXTI line2 interrupt.
   */
-void DMA1_Stream0_IRQHandler(void)
+void EXTI2_IRQHandler(void)
 {
-  /* USER CODE BEGIN DMA1_Stream0_IRQn 0 */
+  /* USER CODE BEGIN EXTI2_IRQn 0 */
 
-  /* USER CODE END DMA1_Stream0_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart3_rx);
-  /* USER CODE BEGIN DMA1_Stream0_IRQn 1 */
+  /* USER CODE END EXTI2_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(LCD_INT_Pin);
+  /* USER CODE BEGIN EXTI2_IRQn 1 */
 
-  /* USER CODE END DMA1_Stream0_IRQn 1 */
+  /* USER CODE END EXTI2_IRQn 1 */
 }
 
 /**
-  * @brief This function handles DMA1 stream1 global interrupt.
+  * @brief This function handles QUADSPI global interrupt.
   */
-void DMA1_Stream1_IRQHandler(void)
+void QUADSPI_IRQHandler(void)
 {
-  /* USER CODE BEGIN DMA1_Stream1_IRQn 0 */
+  /* USER CODE BEGIN QUADSPI_IRQn 0 */
 
-  /* USER CODE END DMA1_Stream1_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart3_tx);
-  /* USER CODE BEGIN DMA1_Stream1_IRQn 1 */
+  /* USER CODE END QUADSPI_IRQn 0 */
+  HAL_QSPI_IRQHandler(&hqspi);
+  /* USER CODE BEGIN QUADSPI_IRQn 1 */
 
-  /* USER CODE END DMA1_Stream1_IRQn 1 */
-}
-
-/**
-  * @brief This function handles USART3 global interrupt.
-  */
-void USART3_IRQHandler(void)
-{
-  /* USER CODE BEGIN USART3_IRQn 0 */
-
-  /* USER CODE END USART3_IRQn 0 */
-  HAL_UART_IRQHandler(&huart3);
-  /* USER CODE BEGIN USART3_IRQn 1 */
-
-  /* USER CODE END USART3_IRQn 1 */
-}
-
-/**
-  * @brief This function handles I2C4 event interrupt.
-  */
-void I2C4_EV_IRQHandler(void)
-{
-  /* USER CODE BEGIN I2C4_EV_IRQn 0 */
-
-  /* USER CODE END I2C4_EV_IRQn 0 */
-  HAL_I2C_EV_IRQHandler(&hi2c4);
-  /* USER CODE BEGIN I2C4_EV_IRQn 1 */
-
-  /* USER CODE END I2C4_EV_IRQn 1 */
-}
-
-/**
-  * @brief This function handles TIM17 global interrupt.
-  */
-void TIM17_IRQHandler(void)
-{
-  /* USER CODE BEGIN TIM17_IRQn 0 */
-
-  /* USER CODE END TIM17_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim17);
-  /* USER CODE BEGIN TIM17_IRQn 1 */
-
-  /* USER CODE END TIM17_IRQn 1 */
+  /* USER CODE END QUADSPI_IRQn 1 */
 }
 
 /**

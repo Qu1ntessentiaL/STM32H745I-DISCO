@@ -227,7 +227,7 @@
           <state>CORE_CM4</state>
           <state>USE_HAL_DRIVER</state>
           <state>STM32H745xx</state>
-          <state>USE_PWR_EXTERNAL_SOURCE_SUPPLY</state>
+          <state>USE_PWR_LDO_SUPPLY</state>
           <state></state>
         </option>
         <option>
@@ -1295,7 +1295,7 @@
           <state>CORE_CM7</state>
           <state>USE_HAL_DRIVER</state>
           <state>STM32H745xx</state>
-          <state>USE_PWR_EXTERNAL_SOURCE_SUPPLY</state>
+          <state>USE_PWR_LDO_SUPPLY</state>
           <state></state>
         </option>
         <option>
@@ -2170,12 +2170,6 @@
             <name>$PROJ_DIR$/../CM4/Core/Src/main.c</name>
           </file>
           <file>
-            <name>$PROJ_DIR$/../CM4/Core/Src/dma.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$/../CM4/Core/Src/mdma.c</name>
-          </file>
-          <file>
             <name>$PROJ_DIR$/../CM4/Core/Src/stm32h7xx_it.c</name>
           </file>
           <file>
@@ -2198,9 +2192,6 @@
           </file>
           <file>
             <name>$PROJ_DIR$/../CM7/Core/Src/gpio.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$/../CM7/Core/Src/dma.c</name>
           </file>
           <file>
             <name>$PROJ_DIR$/../CM7/Core/Src/dma2d.c</name>
@@ -2242,6 +2233,12 @@
       <name>STM32H7xx_HAL_Driver</name>
       <file>
         <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma2d.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c</name>
@@ -2287,12 +2284,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma2d.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_fmc.c</name>

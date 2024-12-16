@@ -5,7 +5,6 @@
 
 #include "stm32h7xx.h"
 #include "stm32h745i_discovery_lcd.h"
-#include "BSP_Common.h"
 
 #define LCD_INSTANCE (LCD_INSTANCES_NBR - 1)
 

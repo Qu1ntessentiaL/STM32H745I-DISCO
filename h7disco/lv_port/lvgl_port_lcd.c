@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #define LCD_INSTANCE                (0)
-#define LVGL_BUFFER_ADDR_AT_SDRAM    (0xD007F810)
+#define LVGL_BUFFER_ADDR_AT_SDRAM   (0xD007F810)
 #define LVGL_BUFFER_2_ADDR_AT_SDRAM (0xD00FF020)
 
 static void disp_flush(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_p);

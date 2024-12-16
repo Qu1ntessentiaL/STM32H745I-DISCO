@@ -1,5 +1,11 @@
 #include "stm32h7xx_it.h"
 
+#include "stm32h745i_discovery.h"
+#include "stm32h745i_discovery_lcd.h"
+#include "stm32h745i_discovery_sdram.h"
+
+#include "lvgl.h"
+
 extern DMA_HandleTypeDef hdma_i2c4_rx;
 extern DMA_HandleTypeDef hdma_i2c4_tx;
 extern I2C_HandleTypeDef hi2c4;
@@ -35,8 +41,9 @@ void PendSV_Handler(void) {}
 
 void SysTick_Handler(void) {
     HAL_IncTick();
+    lv_tick_inc(1);
 }
-
+/*
 void DMA1_Stream0_IRQHandler(void) {
     HAL_DMA_IRQHandler(&hdma_usart3_rx);
 }
@@ -45,7 +52,7 @@ void DMA1_Stream0_IRQHandler(void) {
 void DMA1_Stream1_IRQHandler(void) {
     HAL_DMA_IRQHandler(&hdma_usart3_tx);
 }
-
+*/
 void USART3_IRQHandler(void) {
     HAL_UART_IRQHandler(&huart3);
 }
@@ -65,5 +72,5 @@ void BDMA_Channel1_IRQHandler(void) {
 */
 
 void MDMA_IRQHandler(void) {
-    //BSP_SDRAM_IRQHandler(0);
+    BSP_SDRAM_IRQHandler(0);
 }

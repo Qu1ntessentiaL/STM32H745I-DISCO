@@ -2,28 +2,20 @@
 
 #include "stm32h7xx.h"
 
-#include "dma.h"
-#include "i2c.h"
-#include "quadspi.h"
-#include "tim.h"
 #include "usart.h"
-#include "gpio.h"
-#include "fmc.h"
 
-#include "lvgl_port_lcd.h"
-
-#include "BSP_Periph/Display.h"
-#include "IIC/IIC.h"
-
+#include "stm32h745i_discovery.h"
+#include "stm32h745i_discovery_lcd.h"
 #include "stm32h745i_discovery_qspi.h"
+#include "stm32h745i_discovery_sdram.h"
+
 #include "lvgl.h"
 #include "lvgl_port_lcd.h"
 #include "lvgl_port_touchpad.h"
 #include "../Drivers/lvgl/demos/lv_demos.h"
+#include "../Drivers/lvgl/demos/widgets/lv_demo_widgets.h"
 
 #include "../h7disco/src/ui/ui.h"
-
-#include "stm32h745i_discovery_sdram.h"
 
 //extern "C" void SystemClock_Config(void);
 extern "C" void Error_Handler(void);
@@ -56,7 +48,6 @@ void SystemClock_Config() {
 }
 
 int main() {
-
     MPU_Config();
     SCB_EnableICache();
     SCB_EnableDCache();
@@ -65,11 +56,9 @@ int main() {
     SystemClock_Config();
     MX_USART3_UART_Init();
     HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>("Started!\n\r"), 4, 1000);
-    LCD_init();
-    BSP_LED_Init(LED1);
-    BSP_LED_Init(LED2);
+    //BSP_LED_Init(LED_GREEN);
+    //BSP_LED_Init(LED_RED);
 
-    //Init QSPI Memory
     BSP_QSPI_Init_t qspi_init;
     qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;
     qspi_init.TransferRate = MT25TL01G_DTR_TRANSFER;
@@ -85,10 +74,11 @@ int main() {
     //lv_demo_widgets();
     ui_init();
     while (1) {
-        BSP_LED_Toggle(LED_GREEN);
+        //BSP_LED_Toggle(LED_GREEN);
+        //lv_task_handler();
         HAL_Delay(5);
-        lv_task_handler();
         ui_tick();
+        //printf("abc\n\r");
     }
 }
 

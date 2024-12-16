@@ -44,8 +44,7 @@ void MX_QUADSPI_Init(void)
   hqspi.Init.FlashSize = 26;
   hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_4_CYCLE;
   hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
-  hqspi.Init.FlashID = QSPI_FLASH_ID_1;
-  hqspi.Init.DualFlash = QSPI_DUALFLASH_DISABLE;
+  hqspi.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
   if (HAL_QSPI_Init(&hqspi) != HAL_OK)
   {
     Error_Handler();
@@ -79,45 +78,67 @@ void HAL_QSPI_MspInit(QSPI_HandleTypeDef* qspiHandle)
     /* QUADSPI clock enable */
     __HAL_RCC_QSPI_CLK_ENABLE();
 
-    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOG_CLK_ENABLE();
     __HAL_RCC_GPIOF_CLK_ENABLE();
+    __HAL_RCC_GPIOH_CLK_ENABLE();
     __HAL_RCC_GPIOD_CLK_ENABLE();
     /**QUADSPI GPIO Configuration
-    PB6     ------> QUADSPI_BK1_NCS
+    PG9     ------> QUADSPI_BK2_IO2
+    PG14     ------> QUADSPI_BK2_IO3
+    PG6     ------> QUADSPI_BK1_NCS
     PF6     ------> QUADSPI_BK1_IO3
     PF7     ------> QUADSPI_BK1_IO2
     PF10     ------> QUADSPI_CLK
     PF9     ------> QUADSPI_BK1_IO1
+    PH2     ------> QUADSPI_BK2_IO0
+    PH3     ------> QUADSPI_BK2_IO1
     PD11     ------> QUADSPI_BK1_IO0
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_6;
+    GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_14;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
+    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = GPIO_PIN_6;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_10;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
     HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = GPIO_PIN_9;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
     HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
+    HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+    /* QUADSPI interrupt Init */
+    HAL_NVIC_SetPriority(QUADSPI_IRQn, 15, 0);
+    HAL_NVIC_EnableIRQ(QUADSPI_IRQn);
   /* USER CODE BEGIN QUADSPI_MspInit 1 */
 
   /* USER CODE END QUADSPI_MspInit 1 */
@@ -136,19 +157,27 @@ void HAL_QSPI_MspDeInit(QSPI_HandleTypeDef* qspiHandle)
     __HAL_RCC_QSPI_CLK_DISABLE();
 
     /**QUADSPI GPIO Configuration
-    PB6     ------> QUADSPI_BK1_NCS
+    PG9     ------> QUADSPI_BK2_IO2
+    PG14     ------> QUADSPI_BK2_IO3
+    PG6     ------> QUADSPI_BK1_NCS
     PF6     ------> QUADSPI_BK1_IO3
     PF7     ------> QUADSPI_BK1_IO2
     PF10     ------> QUADSPI_CLK
     PF9     ------> QUADSPI_BK1_IO1
+    PH2     ------> QUADSPI_BK2_IO0
+    PH3     ------> QUADSPI_BK2_IO1
     PD11     ------> QUADSPI_BK1_IO0
     */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_6);
+    HAL_GPIO_DeInit(GPIOG, GPIO_PIN_9|GPIO_PIN_14|GPIO_PIN_6);
 
     HAL_GPIO_DeInit(GPIOF, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_10|GPIO_PIN_9);
 
+    HAL_GPIO_DeInit(GPIOH, GPIO_PIN_2|GPIO_PIN_3);
+
     HAL_GPIO_DeInit(GPIOD, GPIO_PIN_11);
 
+    /* QUADSPI interrupt Deinit */
+    HAL_NVIC_DisableIRQ(QUADSPI_IRQn);
   /* USER CODE BEGIN QUADSPI_MspDeInit 1 */
 
   /* USER CODE END QUADSPI_MspDeInit 1 */
