@@ -4,6 +4,7 @@ add_library(bsp STATIC
         Components/ft5336/ft5336.c
         Components/ft5336/ft5336_reg.c
         Components/mt48lc4m32b2/mt48lc4m32b2.c
+        Components/mt25tl01g/mt25tl01g.c
         STM32H745I-DISCO/stm32h745i_discovery.c
         STM32H745I-DISCO/stm32h745i_discovery_bus.c
         STM32H745I-DISCO/stm32h745i_discovery_lcd.c

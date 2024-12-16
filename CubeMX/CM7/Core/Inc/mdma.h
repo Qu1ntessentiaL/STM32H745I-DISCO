@@ -1,9 +1,9 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    fdcan.h
-  * @brief   This file contains all the function prototypes for
-  *          the fdcan.c file
+  * File Name          : mdma.h
+  * Description        : This file contains all the function prototypes for
+  *                      the mdma.c file
   ******************************************************************************
   * @attention
   *
@@ -17,32 +17,30 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __FDCAN_H__
-#define __FDCAN_H__
+#ifndef __mdma_H
+#define __mdma_H
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "string.h"
+
+/* MDMA transfer handles -----------------------------------------------------*/
+extern MDMA_HandleTypeDef hmdma_mdma_channel0_sw_0;
 
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
-extern FDCAN_HandleTypeDef hfdcan1;
-
-extern FDCAN_HandleTypeDef hfdcan2;
-
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_FDCAN1_Init(void);
-void MX_FDCAN2_Init(void);
+void MX_MDMA_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -52,5 +50,8 @@ void MX_FDCAN2_Init(void);
 }
 #endif
 
-#endif /* __FDCAN_H__ */
+#endif /* __mdma_H */
 
+/**
+  * @}
+  */

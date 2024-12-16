@@ -1,9 +1,9 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    eth.h
+  * @file    ltdc.h
   * @brief   This file contains all the function prototypes for
-  *          the eth.c file
+  *          the ltdc.c file
   ******************************************************************************
   * @attention
   *
@@ -18,8 +18,8 @@
   */
 /* USER CODE END Header */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __ETH_H__
-#define __ETH_H__
+#ifndef __LTDC_H__
+#define __LTDC_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -27,19 +27,18 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "string.h"
 
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
-extern ETH_HandleTypeDef heth;
+extern LTDC_HandleTypeDef hltdc;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_ETH_Init(void);
+void MX_LTDC_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -49,5 +48,5 @@ void MX_ETH_Init(void);
 }
 #endif
 
-#endif /* __ETH_H__ */
+#endif /* __LTDC_H__ */
 

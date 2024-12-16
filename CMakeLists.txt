@@ -16,6 +16,7 @@ add_subdirectory(Drivers/BSP)
 add_subdirectory(Drivers/CMSIS)
 add_subdirectory(Drivers/STM32H7xx_HAL_Driver)
 add_subdirectory(Drivers/lvgl)
+add_subdirectory(h7disco)
 
 include_directories(
         Src
@@ -26,10 +27,9 @@ include_directories(
 
 file(GLOB_RECURSE SOURCES
         Src/main.cpp
-        Src/system.cpp
         Src/stm32h7xx_it.cpp
-        Src/IIC/IIC.cpp
-        Src/BSP_Periph/*.cpp
+        Src/BSP_Periph/Display.cpp
+        Src/BSP_Periph/TouchScreen.cpp
         Src/lv_port/*.c
 )
 
@@ -65,7 +65,7 @@ add_subdirectory(${FREERTOS_KERNEL_PATH} FreeRTOS-Kernel)
 # -----------------------------------------
 
 # stm32h7xx_hal_driver заменить на cmsis, если нет надобности в HAL
-target_link_libraries(${PROJECT_NAME} PRIVATE cubemx bsp lvgl)
+target_link_libraries(${PROJECT_NAME} PRIVATE cubemx bsp lvgl lv_project)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND
         ${CMAKE_IAR_ELFTOOL} --silent --ihex $<TARGET_FILE:${PROJECT_NAME}> $<IF:$<BOOL:$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>>,$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>,$<TARGET_PROPERTY:${PROJECT_NAME},NAME>>.hex)

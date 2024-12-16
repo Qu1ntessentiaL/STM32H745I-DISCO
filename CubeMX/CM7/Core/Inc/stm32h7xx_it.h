@@ -60,8 +60,7 @@ void DMA1_Stream1_IRQHandler(void);
 void USART3_IRQHandler(void);
 void I2C4_EV_IRQHandler(void);
 void TIM17_IRQHandler(void);
-void BDMA_Channel0_IRQHandler(void);
-void BDMA_Channel1_IRQHandler(void);
+void MDMA_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
