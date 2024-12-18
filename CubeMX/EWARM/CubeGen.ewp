@@ -227,7 +227,7 @@
           <state>CORE_CM4</state>
           <state>USE_HAL_DRIVER</state>
           <state>STM32H745xx</state>
-          <state>USE_PWR_LDO_SUPPLY</state>
+          <state>USE_PWR_SMPS_2V5_SUPPLIES_EXT</state>
           <state></state>
         </option>
         <option>
@@ -354,10 +354,10 @@
         <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$/../CM4/Core/Inc</state>
-          <state>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Inc</state>
-          <state>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy</state>
-          <state>$PROJ_DIR$/../Drivers/CMSIS/Device/ST/STM32H7xx/Include</state>
-          <state>$PROJ_DIR$/../Drivers/CMSIS/Include</state>
+          <state>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Inc</state>
+          <state>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy</state>
+          <state>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/CMSIS/Device/ST/STM32H7xx/Include</state>
+          <state>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/CMSIS/Include</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1295,7 +1295,7 @@
           <state>CORE_CM7</state>
           <state>USE_HAL_DRIVER</state>
           <state>STM32H745xx</state>
-          <state>USE_PWR_LDO_SUPPLY</state>
+          <state>USE_PWR_SMPS_2V5_SUPPLIES_EXT</state>
           <state></state>
         </option>
         <option>
@@ -1422,10 +1422,10 @@
         <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$/../CM7/Core/Inc</state>
-          <state>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Inc</state>
-          <state>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy</state>
-          <state>$PROJ_DIR$/../Drivers/CMSIS/Device/ST/STM32H7xx/Include</state>
-          <state>$PROJ_DIR$/../Drivers/CMSIS/Include</state>
+          <state>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Inc</state>
+          <state>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy</state>
+          <state>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/CMSIS/Device/ST/STM32H7xx/Include</state>
+          <state>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/CMSIS/Include</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -2230,144 +2230,144 @@
   <group>
     <name>Drivers</name>
     <group>
-      <name>STM32H7xx_HAL_Driver</name>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma2d.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_fmc.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_nor.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sram.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_nand.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sdram.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_ltdc.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_ltdc_ex.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_qspi.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_delayblock.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c</name>
-        <excluded>
-          <configuration>CubeGen_CM4</configuration>
-        </excluded>
-      </file>
-    </group>
-    <group>
       <name>CMSIS</name>
       <file>
         <name>$PROJ_DIR$/../Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.c</name>
+      </file>
+    </group>
+    <group>
+      <name>STM32H7xx_HAL_Driver</name>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma2d.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c</name>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_fmc.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_nor.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sram.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_nand.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sdram.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_ltdc.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_ltdc_ex.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_qspi.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_delayblock.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>C:/Users/valiullin_fi/STM32Cube/Repository/STM32Cube_FW_H7_V1.12.0/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c</name>
+        <excluded>
+          <configuration>CubeGen_CM4</configuration>
+        </excluded>
       </file>
     </group>
   </group>

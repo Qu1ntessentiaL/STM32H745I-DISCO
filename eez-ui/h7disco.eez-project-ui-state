@@ -239,7 +239,7 @@
                 {
                   "type": "tabset",
                   "id": "#21e054ba-2b1f-41f4-8a6e-d25dfb3c57e6",
-                  "weight": 2,
+                  "weight": 1.0464071856287425,
                   "children": [
                     {
                       "type": "tab",
@@ -254,7 +254,7 @@
                 {
                   "type": "tabset",
                   "id": "#2e851285-019a-41b3-95f2-95e5b3057f60",
-                  "weight": 1,
+                  "weight": 1.9535928143712575,
                   "children": [
                     {
                       "type": "tab",
@@ -1024,12 +1024,14 @@
   "objects": {
     "[h7disco.eez-project]:/userPages/0[flow-state]": {
       "selection": {
-        "0": {}
+        "0": {
+          "3": {}
+        }
       },
       "transform": {
         "translate": {
-          "x": 86,
-          "y": 14
+          "x": -240,
+          "y": -136
         },
         "scale": 1
       },
@@ -1039,7 +1041,8 @@
         "secondToPx": 200,
         "scrollLeft": 0
       }
-    }
+    },
+    "[h7disco.eez-project]:/lvglStyles/styles[tree-state]": {}
   },
   "activeOutputSection": 0,
   "searchPattern": "",

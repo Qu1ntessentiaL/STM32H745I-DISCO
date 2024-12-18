@@ -95,6 +95,14 @@ void create_screen_main() {
                 }
             }
         }
+        {
+            lv_obj_t *obj = lv_calendar_create(parent_obj);
+            lv_obj_set_pos(obj, 199, 17);
+            lv_obj_set_size(obj, 230, 240);
+            lv_calendar_header_arrow_create(obj);
+            lv_calendar_set_today_date(obj, 2022, 11, 1);
+            lv_calendar_set_showed_date(obj, 2022, 11);
+        }
     }
 }
 
@@ -104,7 +112,7 @@ void tick_screen_main() {
 
 void create_screens() {
     lv_disp_t *dispp = lv_disp_get_default();
-    lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), false, LV_FONT_DEFAULT);
+    lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), true, LV_FONT_DEFAULT);
     lv_disp_set_theme(dispp, theme);
     
     create_screen_main();

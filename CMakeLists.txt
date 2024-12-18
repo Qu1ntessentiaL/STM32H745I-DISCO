@@ -16,20 +16,16 @@ add_subdirectory(Drivers/BSP)
 add_subdirectory(Drivers/CMSIS)
 add_subdirectory(Drivers/STM32H7xx_HAL_Driver)
 add_subdirectory(Drivers/lvgl)
-add_subdirectory(h7disco)
+add_subdirectory(eez-ui)
 
 include_directories(
         Src
-        Src/IIC
-        Src/BSP_Periph
         Src/lv_port
 )
 
 file(GLOB_RECURSE SOURCES
-        Src/main.cpp
-        Src/stm32h7xx_it.cpp
-        Src/BSP_Periph/Display.cpp
-        Src/BSP_Periph/TouchScreen.cpp
+        Src/Main.c
+        Src/stm32h7xx_it.c
         Src/lv_port/*.c
 )
 

@@ -3,11 +3,14 @@ cmake_minimum_required(VERSION 3.15)
 add_definitions(-DSTM32H745xx -DCORE_CM7 -DUSE_HAL_DRIVER)
 
 #Найти все C-файлы в директории
-file(GLOB_RECURSE ALL_C_SOURCES "Src/*.c")
+file(GLOB_RECURSE ALL_C_SOURCES
+        Src/main.c
+        Src/usart.c
+)
 
 # Исключить некоторые файлы
 list(REMOVE_ITEM ALL_C_SOURCES
-        # ${CMAKE_CURRENT_SOURCE_DIR}/Src/syscalls.c
+        # ${CMAKE_CURRENT_SOURCE_DIR}/Src/stm32h7xx_it.c
         # ${CMAKE_CURRENT_SOURCE_DIR}/Src/sysmem.c
 )
 

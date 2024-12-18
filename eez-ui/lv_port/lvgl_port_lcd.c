@@ -17,12 +17,7 @@ static lv_disp_t *display = NULL;
 static lv_disp_drv_t disp_drv;
 static lv_disp_draw_buf_t disp_buf;
 
-
-/**
- * Initialize LCD
- */
-
-void LCD_init() {
+void LCD_Init() {
     /* There is only one display on STM32 */
     if (display != NULL)
         abort();
@@ -57,10 +52,6 @@ void LCD_init() {
     /*Finally register the driver*/
     display = lv_disp_drv_register(&disp_drv);
 }
-
-/**********************
- *   STATIC FUNCTIONS
- **********************/
 
 /* Flush the content of the internal buffer the specific area on the display
  * You can use DMA or any hardware acceleration to do this operation in the background but

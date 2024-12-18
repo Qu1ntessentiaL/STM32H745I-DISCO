@@ -1,4 +1,4 @@
-#include "iostream"
+#include "stdio.h"
 
 #include "stm32h7xx.h"
 
@@ -15,18 +15,20 @@
 #include "../Drivers/lvgl/demos/lv_demos.h"
 #include "../Drivers/lvgl/demos/widgets/lv_demo_widgets.h"
 
-#include "../h7disco/src/ui/ui.h"
+#include "../eez-ui//src/ui/ui.h"
 
-//extern "C" void SystemClock_Config(void);
-extern "C" void Error_Handler(void);
-extern "C" void MPU_Config(void);
+extern void SystemClock_Config(void);
+void Clock_Config(void);
+void Error_Handler(void);
 
-extern "C" int __write(int file, char *ptr, int len) {
+void MPU_Config(void);
+
+int __write(int file, char *ptr, int len) {
     HAL_UART_Transmit(&huart3, (uint8_t *) ptr, len, HAL_MAX_DELAY);
     return len;
 }
 
-void SystemClock_Config() {
+void RCC_Config(void) {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
@@ -53,11 +55,10 @@ int main() {
     SCB_EnableDCache();
 
     HAL_Init();
-    SystemClock_Config();
+    Clock_Config();
+    //RCC_Config();
     MX_USART3_UART_Init();
-    HAL_UART_Transmit(&huart3, reinterpret_cast<const uint8_t *>("Started!\n\r"), 4, 1000);
-    //BSP_LED_Init(LED_GREEN);
-    //BSP_LED_Init(LED_RED);
+    printf("Started!\n\r");
 
     BSP_QSPI_Init_t qspi_init;
     qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;
@@ -69,20 +70,28 @@ int main() {
     BSP_SDRAM_Init(0);
 
     lv_init();
-    LCD_init();
+    LCD_Init();
     touchpad_init();
     //lv_demo_widgets();
     ui_init();
+    //BSP_LED_Init(LED_GREEN);
+    //BSP_LED_Init(LED_RED);
+    //BSP_LCD_FillRect(0, 0, 0, 480, 272, LCD_COLOR_ARGB8888_WHITE);
+    //BSP_LCD_FillRect(0, 30, 30, 50, 50, LCD_COLOR_ARGB8888_DARKGREEN);
+    //BSP_LCD_FillRect(0, 110, 30, 50, 50, LCD_COLOR_ARGB8888_DARKCYAN);
+    //BSP_LCD_FillRect(0, 180, 30, 50, 50, LCD_COLOR_ARGB8888_ORANGE);
+    //BSP_LCD_DrawVLine(0, 10, 15, 200, LCD_COLOR_ARGB8888_ST_PURPLE);
     while (1) {
         //BSP_LED_Toggle(LED_GREEN);
-        //lv_task_handler();
         HAL_Delay(5);
+        lv_task_handler();
         ui_tick();
         //printf("abc\n\r");
+        //BSP_LED_Toggle(LED_RED);
     }
 }
 
-extern "C" void MPU_Config(void) {
+void MPU_Config(void) {
     MPU_Region_InitTypeDef MPU_InitStruct = {0};
 
     /* Disables the MPU */
@@ -127,4 +136,58 @@ extern "C" void MPU_Config(void) {
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
     /* Enables the MPU */
     HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+}
+
+void Clock_Config(void)
+{
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+    /** Supply configuration update enable
+    */
+    HAL_PWREx_ConfigSupply(PWR_DIRECT_SMPS_SUPPLY);
+    /** Configure the main internal regulator output voltage
+    */
+    __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
+
+    while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+    /** Macro to configure the PLL clock source
+    */
+    __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
+    /** Initializes the RCC Oscillators according to the specified parameters
+    * in the RCC_OscInitTypeDef structure.
+    */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+    RCC_OscInitStruct.PLL.PLLM = 5;
+    RCC_OscInitStruct.PLL.PLLN = 192;
+    RCC_OscInitStruct.PLL.PLLP = 2;
+    RCC_OscInitStruct.PLL.PLLQ = 8;
+    RCC_OscInitStruct.PLL.PLLR = 4;
+    RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_2;
+    RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
+    RCC_OscInitStruct.PLL.PLLFRACN = 0;
+    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /** Initializes the CPU, AHB and APB buses clocks
+    */
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                                  |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
+                                  |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+    RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
+    RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV2;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV2;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
+    RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
+
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+    {
+        Error_Handler();
+    }
 }
