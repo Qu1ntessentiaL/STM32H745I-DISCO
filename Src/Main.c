@@ -108,24 +108,18 @@ int main() {
     BSP_QSPI_Init(0, &qspi_init);
     BSP_QSPI_EnableMemoryMappedMode(0);
 
-    BSP_SDRAM_Init(0);
-    SCB_CleanInvalidateDCache();
-    SDRAM_Test();
-
-    BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
-    DrawTestPattern();
-//    lv_init();
-//    LCD_Init();
-//    touchpad_init();
-//    lv_demo_widgets();
-
     BSP_LED_Init(LED_RED);
     BSP_LED_Init(LED_GREEN);
 
+    touchpad_init();
+    lcd_init();
+
+    lv_init();
+    lv_demo_widgets();
     while (1) {
-        //lv_task_handler();
+        lv_task_handler();
         BSP_LED_Toggle(LED_RED);
-        HAL_Delay(250);
+        HAL_Delay(5);
     }
 }
 

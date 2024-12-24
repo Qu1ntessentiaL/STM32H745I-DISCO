@@ -4,7 +4,7 @@ set(CMAKE_SYSTEM_PROCESSOR arm)
 
 set(STARTUP_FILE_NAME startup_stm32h745xx_CM7)
 set(STARTUP_LOCATION "${CMAKE_SOURCE_DIR}/toolchains/iar/${STARTUP_FILE_NAME}.s")
-set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/toolchains/iar/stm32h745xx_flash_CM7.icf")
+set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/toolchains/iar/stm32h745xx_flash_rw_sram1_CM7.icf")
 
 set(EW_ROOT_DIR "C:/Program Files/IAR Systems/Embedded Workbench 9.1/arm")
 set(CMAKE_ASM_COMPILER "${EW_ROOT_DIR}/bin/iasmarm.exe")
