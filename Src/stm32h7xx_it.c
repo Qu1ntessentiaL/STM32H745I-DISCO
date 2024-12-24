@@ -18,7 +18,26 @@ void NMI_Handler(void) {
 }
 
 void HardFault_Handler(void) {
-    while (1) {}
+    __asm volatile (
+            "TST lr, #4 \n"
+            "ITE EQ \n"
+            "MRSEQ r0, msp \n"
+            "MRSNE r0, psp \n"
+            "MOV r1, r2 \n"
+            "MOV r2, r3 \n"
+            "MOV r3, r4 \n"
+            "MOV r4, r5 \n"
+            "MOV r5, r6 \n"
+            "MOV r6, r7 \n"
+            "MOV r7, r8 \n"
+            "MOV r8, r9 \n"
+            "MOV r9, r10 \n"
+            "MOV r10, r11 \n"
+            "MOV r11, r12 \n"
+            "MOV r12, lr \n"
+            "MOV lr, r14 \n"
+            );
+    while (1);
 }
 
 void MemManage_Handler(void) {
@@ -43,6 +62,7 @@ void SysTick_Handler(void) {
     HAL_IncTick();
     lv_tick_inc(1);
 }
+
 /*
 void DMA1_Stream0_IRQHandler(void) {
     HAL_DMA_IRQHandler(&hdma_usart3_rx);

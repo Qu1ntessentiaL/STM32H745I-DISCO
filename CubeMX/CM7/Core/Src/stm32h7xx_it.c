@@ -22,6 +22,10 @@
 #include "stm32h7xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "lvgl.h"
+#include "stm32h745i_discovery.h"
+#include "stm32h745i_discovery_lcd.h"
+#include "stm32h745i_discovery_sdram.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,6 +61,7 @@
 /* External variables --------------------------------------------------------*/
 extern MDMA_HandleTypeDef hmdma_mdma_channel0_sw_0;
 extern QSPI_HandleTypeDef hqspi;
+extern UART_HandleTypeDef huart3;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -214,6 +219,20 @@ void EXTI2_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles USART3 global interrupt.
+  */
+void USART3_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART3_IRQn 0 */
+
+  /* USER CODE END USART3_IRQn 0 */
+  HAL_UART_IRQHandler(&huart3);
+  /* USER CODE BEGIN USART3_IRQn 1 */
+
+  /* USER CODE END USART3_IRQn 1 */
+}
+
+/**
   * @brief This function handles QUADSPI global interrupt.
   */
 void QUADSPI_IRQHandler(void)
@@ -235,7 +254,7 @@ void MDMA_IRQHandler(void)
   /* USER CODE BEGIN MDMA_IRQn 0 */
 
   /* USER CODE END MDMA_IRQn 0 */
-  HAL_MDMA_IRQHandler(&hmdma_mdma_channel0_sw_0);
+    BSP_SDRAM_IRQHandler(0);
   /* USER CODE BEGIN MDMA_IRQn 1 */
 
   /* USER CODE END MDMA_IRQn 1 */

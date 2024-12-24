@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 3.15)
 
 add_definitions(-DSTM32H745xx -DCORE_CM7 -DUSE_HAL_DRIVER)
 
-#Найти все C-файлы в директории
+# Найти все C-файлы в директории
 file(GLOB_RECURSE ALL_C_SOURCES
-        Src/main.c
-        Src/usart.c
+        Src/*.c
 )
 
 # Исключить некоторые файлы
@@ -22,4 +21,4 @@ target_include_directories(cubemx PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/Inc/
 )
 
-target_link_libraries(cubemx PUBLIC stm32h7xx_hal_driver)
+target_link_libraries(cubemx PUBLIC bsp lvgl stm32h7xx_hal_driver)
