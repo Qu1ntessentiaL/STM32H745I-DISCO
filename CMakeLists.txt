@@ -24,6 +24,7 @@ include_directories(
 
 file(GLOB_RECURSE SOURCES
         Src/Main.c
+        Src/stm32h7xx_it.c
 )
 
 add_executable(${PROJECT_NAME}

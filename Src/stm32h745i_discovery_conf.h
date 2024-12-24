@@ -59,7 +59,7 @@
 #define BSP_SD_IT_PRIORITY                  14U
 #define BSP_SD_RX_IT_PRIORITY               14U
 #define BSP_SD_TX_IT_PRIORITY               15U
-#define BSP_TS_IT_PRIORITY                  1U
+#define BSP_TS_IT_PRIORITY                  15U
 
 #ifdef __cplusplus
 }

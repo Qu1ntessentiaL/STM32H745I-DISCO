@@ -16,17 +16,11 @@ void SVC_Handler(void);
 void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
-void DMA1_Stream0_IRQHandler(void);
-void DMA1_Stream1_IRQHandler(void);
 void USART3_IRQHandler(void);
 void I2C4_EV_IRQHandler(void);
-void TIM17_IRQHandler(void);
-void BDMA_Channel0_IRQHandler(void);
-void BDMA_Channel1_IRQHandler(void);
 void QUADSPI_IRQHandler(void);
 void MDMA_IRQHandler(void);
 /// Реализации следующих функций добавил в .cpp-файлы соответствующих классов
-void EXTI2_IRQHandler(void);
 
 #ifdef __cplusplus
 }

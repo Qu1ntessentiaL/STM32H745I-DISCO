@@ -16,13 +16,13 @@
 #include "../Drivers/lvgl/demos/lv_demos.h"
 #include "../Drivers/lvgl/demos/widgets/lv_demo_widgets.h"
 
-#include "../eez-ui//src/ui/ui.h"
+#include "../eez-ui/src/ui/ui.h"
 
 extern void SystemClock_Config(void);
-void Clock_Config(void);
-void Error_Handler(void);
 
-void MPU_Config1(void);
+extern void MPU_Config(void);
+
+void SDRAM_Test(void);
 
 int __write(int file, char *ptr, int len) {
     HAL_UART_Transmit(&huart3, (uint8_t *) ptr, len, HAL_MAX_DELAY);
@@ -38,39 +38,68 @@ int _write(int file, char *ptr, int len) {
 }
 */
 
-void RCC_Config(void) {
-    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+#define LCD_WIDTH  480    // Ширина экрана
+#define LCD_HEIGHT 272    // Высота экрана
 
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-    RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-    RCC_OscInitStruct.PLL.PLLM = 5;  // Делитель: 25 МГц / 5 = 5 МГц
-    RCC_OscInitStruct.PLL.PLLN = 96; // Множитель: 5 МГц * 96 = 480 МГц
-    RCC_OscInitStruct.PLL.PLLP = 2;  // SYSCLK = 480 МГц
-    HAL_RCC_OscConfig(&RCC_OscInitStruct);
+void DrawTestPattern(void) {
+    uint32_t * framebuffer = (uint32_t *) LCD_LAYER_0_ADDRESS;
+    uint32_t color;
+    int x, y;
 
-    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
-    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1; // AHB = 480 МГц
-    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;  // APB1 = 240 МГц
-    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;  // APB2 = 240 МГц
-    HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4);
+    // Заполнение экрана черным цветом для начала
+    for (y = 0; y < LCD_HEIGHT; y++) {
+        for (x = 0; x < LCD_WIDTH; x++) {
+            framebuffer[y * LCD_WIDTH + x] = 0xFF000000; // Черный цвет (A = 255, R = 0, G = 0, B = 0)
+        }
+    }
+
+    HAL_Delay(1000);
+
+    // Рисуем вертикальные полосы разного цвета
+    for (x = 0; x < LCD_WIDTH; x++) {
+        if (x < LCD_WIDTH / 3) {
+            color = 0xFFFF0000; // Красный
+        } else if (x < 2 * LCD_WIDTH / 3) {
+            color = 0xFF00FF00; // Зеленый
+        } else {
+            color = 0xFF0000FF; // Синий
+        }
+
+        // Заполнение полосы
+        for (y = 0; y < LCD_HEIGHT; y++) {
+            framebuffer[y * LCD_WIDTH + x] = color;
+        }
+    }
+
+    HAL_Delay(1000);
+
+    // Рисуем горизонтальные полосы
+    for (y = 0; y < LCD_HEIGHT; y++) {
+        if (y < LCD_HEIGHT / 3) {
+            color = 0xFFFFFF00; // Желтый (R + G)
+        } else if (y < 2 * LCD_HEIGHT / 3) {
+            color = 0xFF00FFFF; // Голубой (G + B)
+        } else {
+            color = 0xFFFF00FF; // Фиолетовый (R + B)
+        }
+
+        // Заполнение полосы
+        for (x = 0; x < LCD_WIDTH; x++) {
+            framebuffer[y * LCD_WIDTH + x] = color;
+        }
+    }
 }
 
 int main() {
-    MPU_Config1();
+    MPU_Config();
     SCB_EnableICache();
     SCB_EnableDCache();
 
     HAL_Init();
     SystemClock_Config();
+
     MX_USART3_UART_Init();
     printf("Started!\n\r");
-
-    //BSP_TS_Init();
-    LCD_Init();
 
     BSP_QSPI_Init_t qspi_init;
     qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;
@@ -80,64 +109,37 @@ int main() {
     BSP_QSPI_EnableMemoryMappedMode(0);
 
     BSP_SDRAM_Init(0);
+    SCB_CleanInvalidateDCache();
+    SDRAM_Test();
 
-    lv_init();
-    lv_demo_widgets();
+    BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
+    DrawTestPattern();
+//    lv_init();
+//    LCD_Init();
+//    touchpad_init();
+//    lv_demo_widgets();
 
     BSP_LED_Init(LED_RED);
     BSP_LED_Init(LED_GREEN);
 
     while (1) {
-        lv_task_handler();
-        //ui_tick();
+        //lv_task_handler();
         BSP_LED_Toggle(LED_RED);
-        HAL_Delay(5);
+        HAL_Delay(250);
     }
 }
 
-void MPU_Config1(void) {
-    MPU_Region_InitTypeDef MPU_InitStruct = {0};
+void SDRAM_Test(void) {
+    uint32_t * test_addr = (uint32_t *) 0xD0000000;  // Адрес начала SDRAM
+    uint32_t test_value = 0xDEADBEEF;
 
-    /* Disables the MPU */
-    HAL_MPU_Disable();
-    /** Initializes and configures the Region and the memory to be protected
-    */
-    MPU_InitStruct.Enable = MPU_REGION_ENABLE;
-    MPU_InitStruct.Number = MPU_REGION_NUMBER0;
-    MPU_InitStruct.BaseAddress = 0x0;
-    MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
-    MPU_InitStruct.SubRegionDisable = 0x87;
-    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-    MPU_InitStruct.AccessPermission = MPU_REGION_NO_ACCESS;
-    MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
-    MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
-    MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-    MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+    // Записать тестовое значение в SDRAM
+    *test_addr = test_value;
 
-    HAL_MPU_ConfigRegion(&MPU_InitStruct);
-    /** Initializes and configures the Region and the memory to be protected
-    */
-    MPU_InitStruct.Number = MPU_REGION_NUMBER1;
-    MPU_InitStruct.BaseAddress = 0xD0000000;
-    MPU_InitStruct.Size = MPU_REGION_SIZE_32MB;
-    MPU_InitStruct.SubRegionDisable = 0x0;
-    MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-    MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-    MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-    MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
-
-    HAL_MPU_ConfigRegion(&MPU_InitStruct);
-    /** Initializes and configures the Region and the memory to be protected
-    */
-    MPU_InitStruct.Number = MPU_REGION_NUMBER2;
-    MPU_InitStruct.BaseAddress = 0x90000000;
-    MPU_InitStruct.Size = MPU_REGION_SIZE_128MB;
-    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
-    MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
-    MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
-    MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-
-    HAL_MPU_ConfigRegion(&MPU_InitStruct);
-    /* Enables the MPU */
-    HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+    // Проверить, что оно сохранено
+    if (*test_addr != test_value) {
+        printf("SDRAM test failed!\n");
+    } else {
+        printf("SDRAM test passed!\n");
+    }
 }
