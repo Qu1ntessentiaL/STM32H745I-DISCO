@@ -56,7 +56,9 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-
+extern MDMA_HandleTypeDef hmdma_mdma_channel0_sw_0;
+extern QSPI_HandleTypeDef hqspi;
+extern UART_HandleTypeDef huart3;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -215,13 +217,31 @@ void EXTI2_IRQHandler(void)
 }
 
 /**
-  * @brief  This function handles External lines 15 to 10 interrupt request.
-  * @param  None
-  * @retval None
+  * @brief This function handles USART3 global interrupt.
   */
-void EXTI15_10_IRQHandler(void)
+void USART3_IRQHandler(void)
 {
-	BSP_PB_IRQHandler(BUTTON_USER);
+  /* USER CODE BEGIN USART3_IRQn 0 */
+
+  /* USER CODE END USART3_IRQn 0 */
+  HAL_UART_IRQHandler(&huart3);
+  /* USER CODE BEGIN USART3_IRQn 1 */
+
+  /* USER CODE END USART3_IRQn 1 */
+}
+
+/**
+  * @brief This function handles QUADSPI global interrupt.
+  */
+void QUADSPI_IRQHandler(void)
+{
+  /* USER CODE BEGIN QUADSPI_IRQn 0 */
+
+  /* USER CODE END QUADSPI_IRQn 0 */
+  HAL_QSPI_IRQHandler(&hqspi);
+  /* USER CODE BEGIN QUADSPI_IRQn 1 */
+
+  /* USER CODE END QUADSPI_IRQn 1 */
 }
 
 /**
@@ -232,9 +252,12 @@ void MDMA_IRQHandler(void)
   /* USER CODE BEGIN MDMA_IRQn 0 */
 
   /* USER CODE END MDMA_IRQn 0 */
-	BSP_SDRAM_IRQHandler(0);
+  HAL_MDMA_IRQHandler(&hmdma_mdma_channel0_sw_0);
   /* USER CODE BEGIN MDMA_IRQn 1 */
 
   /* USER CODE END MDMA_IRQn 1 */
 }
+
+/* USER CODE BEGIN 1 */
+
 /* USER CODE END 1 */

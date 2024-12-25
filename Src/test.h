@@ -28,4 +28,8 @@ void test_sdram(void);
 
 void test_full_sdram(void);
 
+void DrawTestPattern(void);
+
+void SDRAM_Test(void);
+
 #endif //TEST_H

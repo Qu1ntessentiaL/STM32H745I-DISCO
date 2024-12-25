@@ -2209,6 +2209,9 @@
             <name>$PROJ_DIR$/../CM7/Core/Src/mdma.c</name>
           </file>
           <file>
+            <name>$PROJ_DIR$/../CM7/Core/Src/memorymap.c</name>
+          </file>
+          <file>
             <name>$PROJ_DIR$/../CM7/Core/Src/quadspi.c</name>
           </file>
           <file>
