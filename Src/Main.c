@@ -3,6 +3,7 @@
 #include "stm32h7xx.h"
 
 #include "usart.h"
+#include "fmc.h"
 
 #include "stm32h745i_discovery.h"
 #include "stm32h745i_discovery_lcd.h"
@@ -16,7 +17,7 @@
 #include "../Drivers/lvgl/demos/lv_demos.h"
 #include "../Drivers/lvgl/demos/widgets/lv_demo_widgets.h"
 
-#include "../eez-ui/src/ui/ui.h"
+#include "test.h"
 
 extern void SystemClock_Config(void);
 
@@ -98,6 +99,7 @@ int main() {
     HAL_Init();
     SystemClock_Config();
 
+    //MX_FMC_Init();
     MX_USART3_UART_Init();
     printf("Started!\n\r");
 
@@ -108,22 +110,16 @@ int main() {
     BSP_QSPI_Init(0, &qspi_init);
     BSP_QSPI_EnableMemoryMappedMode(0);
 
-    BSP_SDRAM_Init(0);
-    SCB_CleanInvalidateDCache();
-    SDRAM_Test();
-
-    BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
-    DrawTestPattern();
-//    lv_init();
-//    LCD_Init();
-//    touchpad_init();
-//    lv_demo_widgets();
+    lcd_init();
+    touchpad_init();
+    lv_init();
+    lv_demo_benchmark();
 
     BSP_LED_Init(LED_RED);
     BSP_LED_Init(LED_GREEN);
 
     while (1) {
-        //lv_task_handler();
+        lv_task_handler();
         BSP_LED_Toggle(LED_RED);
         HAL_Delay(250);
     }

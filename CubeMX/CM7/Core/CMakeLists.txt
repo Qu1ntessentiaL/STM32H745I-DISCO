@@ -6,6 +6,7 @@ add_definitions(-DSTM32H745xx -DCORE_CM7 -DUSE_HAL_DRIVER)
 file(GLOB_RECURSE ALL_C_SOURCES
         Src/main.c
         Src/usart.c
+        Src/fmc.c
 )
 
 # Исключить некоторые файлы

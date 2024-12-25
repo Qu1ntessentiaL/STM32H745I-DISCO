@@ -7,7 +7,10 @@ project(stm32h745i_disco LANGUAGES C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-include(toolchains/iar/stm32_toolchain_iar.cmake)
+if(TARGET_TYPE STREQUAL "EWARM_ARM")
+    message(STATUS "Building with EWARM_ARM configuration")
+    include(toolchains/iar/iar.cmake)
+endif ()
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32H745xx -DCORE_CM7)
 
@@ -25,6 +28,7 @@ include_directories(
 file(GLOB_RECURSE SOURCES
         Src/Main.c
         Src/stm32h7xx_it.c
+        Src/test.c
 )
 
 add_executable(${PROJECT_NAME}

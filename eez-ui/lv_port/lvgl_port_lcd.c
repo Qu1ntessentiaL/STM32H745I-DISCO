@@ -17,8 +17,7 @@ static lv_disp_t *display = NULL;
 static lv_disp_drv_t disp_drv;
 static lv_disp_draw_buf_t disp_buf;
 
-void LCD_Init() {
-    /* There is only one display on STM32 */
+void lcd_init() {
     if (display != NULL)
         abort();
 
@@ -28,35 +27,29 @@ void LCD_Init() {
     BSP_LCD_SetBrightness(LCD_INSTANCE, 100);
     BSP_LCD_DisplayOn(LCD_INSTANCE);
 
-    lv_disp_draw_buf_init(&disp_buf, (void *) LVGL_BUFFER_ADDR_AT_SDRAM,
+    lv_disp_draw_buf_init(&disp_buf,
+                          (void *) LVGL_BUFFER_ADDR_AT_SDRAM,
                           (void *) LVGL_BUFFER_2_ADDR_AT_SDRAM,
-                          Lcd_Ctx[LCD_INSTANCE].XSize * Lcd_Ctx[LCD_INSTANCE].YSize); /*Initialize the display buffer*/
+                          Lcd_Ctx[LCD_INSTANCE].XSize * Lcd_Ctx[LCD_INSTANCE].YSize);
 
     lv_disp_drv_init(&disp_drv);
 
-    disp_drv.sw_rotate = 1;
-
-    /*Set up the functions to access to your display*/
-
-    /*Set the resolution of the display*/
     disp_drv.hor_res = Lcd_Ctx[LCD_INSTANCE].XSize;
     disp_drv.ver_res = Lcd_Ctx[LCD_INSTANCE].YSize;
 
-    /*Used to copy the buffer's content to the display*/
     disp_drv.flush_cb = disp_flush;
     disp_drv.clean_dcache_cb = disp_clean_dcache;
 
-    /*Set a display buffer*/
     disp_drv.draw_buf = &disp_buf;
 
-    /*Finally register the driver*/
     display = lv_disp_drv_register(&disp_drv);
 }
 
 /* Flush the content of the internal buffer the specific area on the display
  * You can use DMA or any hardware acceleration to do this operation in the background but
  * 'lv_disp_flush_ready()' has to be called when finished*/
-static void disp_flush(lv_disp_drv_t *drv, const lv_area_t *area,
+static void disp_flush(lv_disp_drv_t *drv,
+                       const lv_area_t *area,
                        lv_color_t *color_p) {
     /*Return if the area is out the screen*/
     if (area->x2 < 0)
@@ -67,14 +60,12 @@ static void disp_flush(lv_disp_drv_t *drv, const lv_area_t *area,
         return;
     if (area->y1 > Lcd_Ctx[LCD_INSTANCE].YSize - 1)
         return;
-    //BSP_LED_Toggle(LED2);
     SCB_CleanInvalidateDCache();
     SCB_InvalidateICache();
 
-    uint32_t address =
-            hlcd_ltdc.LayerCfg[Lcd_Ctx[LCD_INSTANCE].ActiveLayer].FBStartAdress
-            + (((Lcd_Ctx[LCD_INSTANCE].XSize * area->y1) + area->x1)
-               * Lcd_Ctx[LCD_INSTANCE].BppFactor);
+    uint32_t address = hlcd_ltdc.LayerCfg[Lcd_Ctx[LCD_INSTANCE].ActiveLayer].FBStartAdress
+                       + (((Lcd_Ctx[LCD_INSTANCE].XSize * area->y1) + area->x1)
+                          * Lcd_Ctx[LCD_INSTANCE].BppFactor);
 
     CopyImageToLcdFrameBuffer((void *) color_p, (void *) address,
                               lv_area_get_width(area), lv_area_get_height(area));
