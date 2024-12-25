@@ -7,9 +7,7 @@ project(stm32h745i_disco LANGUAGES C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-include(toolchains/iar/stm32_toolchain_iar.cmake)
-
-add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32H745xx -DCORE_CM7)
+# include(toolchains/iar/stm32_toolchain_iar.cmake)
 
 add_subdirectory(CubeMX/CM7/Core)
 add_subdirectory(Drivers/BSP)
@@ -28,13 +26,10 @@ file(GLOB_RECURSE SOURCES
 )
 
 add_executable(${PROJECT_NAME}
-        ${STARTUP_LOCATION}
         ${SOURCES}
-        ${LINKER_SCRIPT}
 )
 
-# ------- Настройка сборки FreeRTOS -------
-
+# ---------------------------------------------------------------------------------------------------------------------
 set(FREERTOS_KERNEL_PATH "Drivers/FreeRTOS-LTS/FreeRTOS/FreeRTOS-Kernel")
 
 add_library(freertos_config INTERFACE)
@@ -52,14 +47,16 @@ endif ()
 
 set(FREERTOS_HEAP "4" CACHE STRING "" FORCE)
 
-set(FREERTOS_PORT "IAR_ARM_CM7" CACHE STRING "" FORCE)
+set(FREERTOS_PORT "GCC_ARM_CM7" CACHE STRING "" FORCE)
 
 add_subdirectory(${FREERTOS_KERNEL_PATH} FreeRTOS-Kernel)
 
-# -----------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 
-# stm32h7xx_hal_driver заменить на cmsis, если нет надобности в HAL
-target_link_libraries(${PROJECT_NAME} PRIVATE cubemx lvgl lv_project lvgl_demos lvgl_examples)
+target_link_libraries(${PROJECT_NAME} PRIVATE cubemx)
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND
-        ${CMAKE_IAR_ELFTOOL} --silent --ihex $<TARGET_FILE:${PROJECT_NAME}> $<IF:$<BOOL:$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>>,$<TARGET_PROPERTY:${PROJECT_NAME},OUTPUT_NAME>,$<TARGET_PROPERTY:${PROJECT_NAME},NAME>>.hex)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E echo "Converting ELF to HEX..."
+        COMMAND ${CMAKE_COMMAND} -E rename $<TARGET_FILE:${PROJECT_NAME}> $<TARGET_FILE_BASE_NAME:${PROJECT_NAME}>.elf
+        COMMAND arm-none-eabi-objcopy -O ihex $<TARGET_FILE:${PROJECT_NAME}> $<TARGET_FILE_BASE_NAME:${PROJECT_NAME}>.hex
+)

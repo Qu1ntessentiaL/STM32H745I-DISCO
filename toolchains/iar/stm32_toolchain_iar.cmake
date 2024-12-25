@@ -13,7 +13,7 @@ set(CMAKE_С_COMPILER "${EW_ROOT_DIR}/bin/iссarm.exe")
 set(COMMON_COMPILER_FLAGS "--cpu=Cortex-M7 --fpu=VFPv4 --dlib_config normal --no_cse --no_unroll --no_code_motion --no_tbaa --no_clustering --no_scheduling --endian=little -e")
 set(CMAKE_C_FLAGS "${COMMON_COMPILER_FLAGS} ")
 set(CMAKE_CXX_FLAGS "${COMMON_COMPILER_FLAGS} --c++ --no_exceptions --no_rtti")
-set(CMAKE_ASM_FLAGS "--cpu=Cortex-M7 --fpu=VFPv4 -s+ -r -t8")
+set(CMAKE_ASM_FLAGS "--cpu=Cortex-M7 --fpu=VFPv4 -s+ -t8")
 
 set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 

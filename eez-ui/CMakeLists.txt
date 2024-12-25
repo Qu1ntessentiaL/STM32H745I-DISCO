@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
 
-# add_definitions(-DSTM32H745xx -DCORE_CM7 -DUSE_HAL_DRIVER)
-
 # Найти все C-файлы в директории
 file(GLOB_RECURSE ALL_C_SOURCES
         src/*.c

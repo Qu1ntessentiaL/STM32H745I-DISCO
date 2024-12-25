@@ -22,4 +22,4 @@ target_include_directories(bsp PUBLIC
         STM32H745I-DISCO
 )
 
-target_link_libraries(bsp PUBLIC stm32h7xx_hal_driver)
+target_link_libraries(bsp PUBLIC hal)

@@ -10,17 +10,16 @@
 #include "stm32h745i_discovery_qspi.h"
 #include "stm32h745i_discovery_sdram.h"
 
-#include "lvgl.h"
-#include "lvgl_port_lcd.h"
-#include "lvgl_port_touchpad.h"
-#include "../Drivers/lvgl/demos/lv_demos.h"
-#include "../Drivers/lvgl/demos/widgets/lv_demo_widgets.h"
+//#include "lvgl.h"
+//#include "lvgl_port_lcd.h"
+//#include "lvgl_port_touchpad.h"
+//#include "../Drivers/lvgl/demos/lv_demos.h"
+//#include "../Drivers/lvgl/demos/widgets/lv_demo_widgets.h"
 
-#include "../eez-ui/src/ui/ui.h"
+//#include "../eez-ui/src/ui/ui.h"
 
 extern void SystemClock_Config(void);
 
-extern void MPU_Config(void);
 
 void SDRAM_Test(void);
 
@@ -91,7 +90,7 @@ void DrawTestPattern(void) {
 }
 
 int main() {
-    MPU_Config();
+    //MPU_Config();
     SCB_EnableICache();
     SCB_EnableDCache();
 
@@ -111,13 +110,13 @@ int main() {
     BSP_LED_Init(LED_RED);
     BSP_LED_Init(LED_GREEN);
 
-    touchpad_init();
-    lcd_init();
+    //touchpad_init();
+    //lcd_init();
 
-    lv_init();
-    lv_demo_widgets();
+    //lv_init();
+    //lv_demo_widgets();
     while (1) {
-        lv_task_handler();
+        //lv_task_handler();
         BSP_LED_Toggle(LED_RED);
         HAL_Delay(5);
     }

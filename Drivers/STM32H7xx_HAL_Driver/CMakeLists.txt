@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(STM32F1XX_HAL_CONF_H_DIR "../../../../Src")
-add_definitions(-DSTM32H745xx -DCORE_CM7 -DUSE_HAL_DRIVER)
+set(STM32F1XX_HAL_CONF_H_DIR ${CMAKE_SOURCE_DIR}/Src)
 
 #Найти все C-файлы в директории
 file(GLOB_RECURSE ALL_C_SOURCES "Src/*.c")
@@ -14,13 +13,13 @@ list(REMOVE_ITEM ALL_C_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/Src/stm32h7xx_hal_timebase_tim_template.c
 )
 
-add_library(stm32h7xx_hal_driver STATIC
+add_library(hal STATIC
         ${ALL_C_SOURCES}
 )
 
-target_include_directories(stm32h7xx_hal_driver PUBLIC
+target_include_directories(hal PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/Inc/
         ${STM32F1XX_HAL_CONF_H_DIR}
 )
 
-target_link_libraries(stm32h7xx_hal_driver PUBLIC cmsis)
+target_link_libraries(hal PUBLIC cmsis)
