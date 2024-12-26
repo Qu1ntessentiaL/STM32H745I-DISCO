@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-void lcd_init();
+void lcd_init(void);
 
 #ifdef __cplusplus
 }

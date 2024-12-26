@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.15)
 # Найти все C-файлы в директории
 file(GLOB_RECURSE ALL_C_SOURCES
         src/*.c
-        lv_port/*.c
 )
 
 # Исключить некоторые файлы
@@ -16,7 +15,6 @@ add_library(lv_project STATIC
 )
 
 target_include_directories(lv_project PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/lv_port/
         ${CMAKE_CURRENT_SOURCE_DIR}/src/
 )
 

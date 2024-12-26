@@ -1,5 +1,5 @@
 #include "lvgl_port_touchpad.h"
-#include "../Drivers/lvgl/src/hal/lv_hal.h"
+#include "src/hal/lv_hal.h"
 
 #include "stm32h745i_discovery.h"
 #include "stm32h745i_discovery_ts.h"

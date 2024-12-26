@@ -4,7 +4,7 @@
 #include "stm32h745i_discovery_lcd.h"
 #include "stm32h745i_discovery_sdram.h"
 
-//#include "lvgl.h"
+#include "lvgl.h"
 
 extern DMA_HandleTypeDef hdma_i2c4_rx;
 extern DMA_HandleTypeDef hdma_i2c4_tx;
@@ -41,7 +41,7 @@ void PendSV_Handler(void) {}
 
 void SysTick_Handler(void) {
     HAL_IncTick();
-    //lv_tick_inc(1);
+    lv_tick_inc(1);
 }
 
 void USART3_IRQHandler(void) {

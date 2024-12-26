@@ -9,25 +9,16 @@ set(CMAKE_CXX_STANDARD 17)
 
 # include(toolchains/iar/stm32_toolchain_iar.cmake)
 
-add_subdirectory(CubeMX/CM7/Core)
+# add_subdirectory(CubeMX/CM7/Core)
 add_subdirectory(Drivers/BSP)
 add_subdirectory(Drivers/CMSIS)
 add_subdirectory(Drivers/STM32H7xx_HAL_Driver)
 add_subdirectory(Drivers/lvgl)
 add_subdirectory(eez-ui)
 
-include_directories(
-        Src
-)
+add_executable(${PROJECT_NAME})
 
-file(GLOB_RECURSE SOURCES
-        Src/Main.c
-        Src/stm32h7xx_it.c
-)
-
-add_executable(${PROJECT_NAME}
-        ${SOURCES}
-)
+include(Src/sources.cmake)
 
 # ---------------------------------------------------------------------------------------------------------------------
 set(FREERTOS_KERNEL_PATH "Drivers/FreeRTOS-LTS/FreeRTOS/FreeRTOS-Kernel")
@@ -53,7 +44,7 @@ add_subdirectory(${FREERTOS_KERNEL_PATH} FreeRTOS-Kernel)
 
 # ---------------------------------------------------------------------------------------------------------------------
 
-target_link_libraries(${PROJECT_NAME} PRIVATE cubemx)
+target_link_libraries(${PROJECT_NAME} PUBLIC bsp lvgl_demos)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E echo "Converting ELF to HEX..."
