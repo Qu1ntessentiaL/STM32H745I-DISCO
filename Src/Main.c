@@ -18,6 +18,8 @@
 
 #include "../eez-ui/src/ui/ui.h"
 
+#define EXTFLASH __attribute__((section(".extflash_text")))
+
 void Error_Handler(void) {
     __disable_irq();
     while (1) {}
@@ -35,6 +37,9 @@ int __io_putchar(int ch) {
 void SystemClock_Config(void);
 
 void MPU_Config(void);
+
+uint8_t cnt = 0;
+bool upd = false;
 
 int main(void) {
     int32_t timeout;
@@ -78,17 +83,26 @@ int main(void) {
     lv_init();
     lcd_init();
     touchpad_init();
-    //lv_demo_widgets();
     ui_init();
 
     BSP_LED_Init(LED_RED);
     BSP_LED_Init(LED_GREEN);
-    uint32_t cnt = 0;
+    BSP_PB_Init(BUTTON_USER, BUTTON_MODE_EXTI);
     while (1) {
         HAL_Delay(5);
-        if (cnt++ == 100) {
-            BSP_LED_Toggle(LED_RED);
-            cnt = 0;
+
+        if (upd) {
+            switch (cnt) {
+                case 0:
+                    loadScreen(SCREEN_ID_MAIN);
+                    break;
+                case 1:
+                    loadScreen(SCREEN_ID_SECOND);
+                    break;
+                default:
+                    break;
+            }
+            upd = false;
         }
         lv_task_handler();
         ui_tick();
@@ -191,4 +205,19 @@ void MPU_Config(void) {
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
     /* Enables the MPU */
     HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+}
+
+void BSP_PB_Callback(Button_TypeDef Button) {
+    if (++cnt == 2) {
+        cnt = 0;
+    }
+    upd = true;
+}
+
+void action_btn_toggle(lv_event_t *e) {
+
+}
+
+void action_pwr_btn_push(lv_event_t *e) {
+    BSP_LED_Toggle(LED_GREEN);
 }

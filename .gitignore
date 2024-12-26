@@ -1,5 +1,6 @@
 .idea/
-CubeMX/CM4/
-CubeMX/Drivers/
+CubeMX/
+!CubeMX/CubeMX.ioc
+!CubeMX/CM7/Core/CMakeLists.txt
 doxygen/
 cmake-build-*/

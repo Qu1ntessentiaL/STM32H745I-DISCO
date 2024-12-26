@@ -15,19 +15,6 @@
 **
 **  Target      : STMicroelectronics STM32
 **
-**  Distribution: The file is distributed �as is,� without any warranty
-**                of any kind.
-**
-*****************************************************************************
-** @attention
-**
-** Copyright (c) 2019 STMicroelectronics.
-** All rights reserved.
-**
-** This software is licensed under terms that can be found in the LICENSE file
-** in the root directory of this software component.
-** If no LICENSE file comes with this software, it is provided AS-IS.
-**
 ******************************************************************************
 */
 
@@ -35,17 +22,19 @@
 ENTRY(Reset_Handler)
 
 /* Highest address of the user mode stack */
-_estack = 0x20020000;    /* end of RAM */
+_estack = 0x20020000;    /* End of SRAM */
 /* Generate a link error if heap and stack don't fit into RAM */
-_Min_Heap_Size = 0x2000;      /* required amount of heap  */
-_Min_Stack_Size = 0x4000; /* required amount of stack */
+_Min_Heap_Size = 0x2000;      /* Required amount of heap  */
+_Min_Stack_Size = 0x4000;     /* Required amount of stack */
 
 /* Specify the memory areas */
 MEMORY
 {
-FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 1024K
-RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
-ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
+  FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 1024K     /* Internal Flash */
+  RAM (xrw)       : ORIGIN = 0x20000000, LENGTH = 128K      /* Internal SRAM1 */
+  ITCMRAM (xrw)   : ORIGIN = 0x00000000, LENGTH = 64K       /* ITCM RAM */
+  QSPI (rx)       : ORIGIN = 0x90000000, LENGTH = 64M       /* External QSPI Flash */
+  SDRAM (xrw)     : ORIGIN = 0xD0000000, LENGTH = 16M       /* External SDRAM */
 }
 
 /* Define output sections */
@@ -59,7 +48,7 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
-  /* The program code and other data goes into FLASH */
+  /* Program code and other data into FLASH */
   .text :
   {
     . = ALIGN(4);
@@ -73,10 +62,10 @@ SECTIONS
     KEEP (*(.fini))
 
     . = ALIGN(4);
-    _etext = .;        /* define a global symbols at end of code */
+    _etext = .;        /* Define global symbol at the end of code */
   } >FLASH
 
-  /* Constant data goes into FLASH */
+  /* Constant data into FLASH */
   .rodata :
   {
     . = ALIGN(4);
@@ -85,31 +74,36 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
-  .ARM.extab (READONLY) : /* The READONLY keyword is only supported in GCC11 and later, remove it if using GCC10 or earlier. */
+  /* Additional ARM-specific sections */
+  .ARM.extab (READONLY) :
   {
     *(.ARM.extab* .gnu.linkonce.armextab.*)
   } >FLASH
-  .ARM (READONLY) : /* The READONLY keyword is only supported in GCC11 and later, remove it if using GCC10 or earlier. */
+
+  .ARM (READONLY) :
   {
     __exidx_start = .;
     *(.ARM.exidx*)
     __exidx_end = .;
   } >FLASH
 
-  .preinit_array (READONLY) : /* The READONLY keyword is only supported in GCC11 and later, remove it if using GCC10 or earlier. */
+  /* Initialization and finalization arrays */
+  .preinit_array (READONLY) :
   {
     PROVIDE_HIDDEN (__preinit_array_start = .);
     KEEP (*(.preinit_array*))
     PROVIDE_HIDDEN (__preinit_array_end = .);
   } >FLASH
-  .init_array (READONLY) : /* The READONLY keyword is only supported in GCC11 and later, remove it if using GCC10 or earlier. */
+
+  .init_array (READONLY) :
   {
     PROVIDE_HIDDEN (__init_array_start = .);
     KEEP (*(SORT(.init_array.*)))
     KEEP (*(.init_array*))
     PROVIDE_HIDDEN (__init_array_end = .);
   } >FLASH
-  .fini_array (READONLY) : /* The READONLY keyword is only supported in GCC11 and later, remove it if using GCC10 or earlier. */
+
+  .fini_array (READONLY) :
   {
     PROVIDE_HIDDEN (__fini_array_start = .);
     KEEP (*(SORT(.fini_array.*)))
@@ -117,39 +111,33 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
 
-  /* used by the startup to initialize data */
+  /* Data sections initialized in RAM with LMA in FLASH */
   _sidata = LOADADDR(.data);
 
-  /* Initialized data sections goes into RAM, load LMA copy after code */
-  .data : 
+  .data :
   {
     . = ALIGN(4);
-    _sdata = .;        /* create a global symbol at data start */
-    *(.data)           /* .data sections */
-    *(.data*)          /* .data* sections */
-
+    _sdata = .;
+    *(.data)
+    *(.data*)
     . = ALIGN(4);
-    _edata = .;        /* define a global symbol at data end */
-  } >RAM AT> FLASH
+    _edata = .;
+  } >RAM AT>FLASH
 
-  
   /* Uninitialized data section */
-  . = ALIGN(4);
   .bss :
   {
-    /* This is used by the startup in order to initialize the .bss secion */
-    _sbss = .;         /* define a global symbol at bss start */
+    _sbss = .;
     __bss_start__ = _sbss;
     *(.bss)
     *(.bss*)
     *(COMMON)
-
     . = ALIGN(4);
-    _ebss = .;         /* define a global symbol at bss end */
+    _ebss = .;
     __bss_end__ = _ebss;
   } >RAM
 
-  /* User_heap_stack section, used to check that there is enough RAM left */
+  /* Section for heap and stack */
   ._user_heap_stack :
   {
     . = ALIGN(8);
@@ -160,9 +148,52 @@ SECTIONS
     . = ALIGN(8);
   } >RAM
 
-  
+  /* External QSPI Flash section for code */
+  .extflash_text :
+  {
+    . = ALIGN(4);
+    *(.extflash_text)
+    *(.extflash_text*)
+    . = ALIGN(4);
+  } >QSPI
 
-  /* Remove information from the standard libraries */
+  /* External SDRAM section for data */
+  .sdram_data :
+  {
+    . = ALIGN(4);
+    _ssdram = .;
+    *(.sdram_data)
+    *(.sdram_data*)
+    . = ALIGN(4);
+    _esdram = .;
+  } >SDRAM AT>FLASH
+
+  /* Optional: Logical separation of modules */
+  .core :
+  {
+    . = ALIGN(4);
+    *(.core)
+    *(.core*)
+    . = ALIGN(4);
+  } >FLASH
+
+  .modules :
+  {
+    . = ALIGN(4);
+    *(.modules)
+    *(.modules*)
+    . = ALIGN(4);
+  } >FLASH
+
+  .resources :
+  {
+    . = ALIGN(4);
+    *(.resources)
+    *(.resources*)
+    . = ALIGN(4);
+  } >SDRAM AT>FLASH
+
+  /* Discard unused sections */
   /DISCARD/ :
   {
     libc.a ( * )
@@ -172,5 +203,3 @@ SECTIONS
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
 }
-
-

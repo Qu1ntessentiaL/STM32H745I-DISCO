@@ -48,6 +48,10 @@ void USART3_IRQHandler(void) {
     HAL_UART_IRQHandler(&huart3);
 }
 
+void EXTI15_10_IRQHandler(void) {
+    BSP_PB_IRQHandler(BUTTON_USER);
+}
+
 void MDMA_IRQHandler(void) {
     BSP_SDRAM_IRQHandler(0);
 }
