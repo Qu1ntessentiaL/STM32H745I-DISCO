@@ -16,8 +16,7 @@
 #include "../Drivers/lvgl/demos/lv_demos.h"
 #include "../Drivers/lvgl/demos/widgets/lv_demo_widgets.h"
 
-extern void SystemClock_Config(void);
-extern void MPU_Config(void);
+#include "../eez-ui/src/ui/ui.h"
 
 void Error_Handler(void) {
     __disable_irq();
@@ -29,48 +28,111 @@ int __io_putchar(int ch) {
     return ch;
 }
 
-void SystemClock_Config(void)
-{
+#ifndef HSEM_ID_0
+#define HSEM_ID_0 (0U) /* HW semaphore 0*/
+#endif
+
+void SystemClock_Config(void);
+
+void MPU_Config(void);
+
+int main(void) {
+    int32_t timeout;
+
+    MPU_Config();
+    SCB_EnableICache();
+    SCB_EnableDCache();
+
+    /* Wait until CPU2 boots and enters in stop mode or timeout*/
+    timeout = 0xFFFF;
+    while ((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) != RESET) && (timeout-- > 0));
+    if (timeout < 0) {
+        Error_Handler();
+    }
+
+    HAL_Init();
+    SystemClock_Config();
+
+    /* When system initialization is finished, Cortex-M7 will release Cortex-M4 by means of
+     HSEM notification */
+    /*HW semaphore Clock enable*/
+    __HAL_RCC_HSEM_CLK_ENABLE();
+    /*Take HSEM */
+    HAL_HSEM_FastTake(HSEM_ID_0);
+    /*Release HSEM in order to notify the CPU2(CM4)*/
+    HAL_HSEM_Release(HSEM_ID_0, 0);
+    /* wait until CPU2 wakes up from stop mode */
+    timeout = 0xFFFF;
+    while ((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) == RESET) && (timeout-- > 0));
+    if (timeout < 0) {
+        Error_Handler();
+    }
+
+    BSP_QSPI_Init_t qspi_init;
+    qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;
+    qspi_init.TransferRate = MT25TL01G_DTR_TRANSFER;
+    qspi_init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
+    BSP_QSPI_Init(0, &qspi_init);
+    BSP_QSPI_EnableMemoryMappedMode(0);
+
+    lv_init();
+    lcd_init();
+    touchpad_init();
+    //lv_demo_widgets();
+    ui_init();
+
+    BSP_LED_Init(LED_RED);
+    BSP_LED_Init(LED_GREEN);
+    uint32_t cnt = 0;
+    while (1) {
+        HAL_Delay(5);
+        if (cnt++ == 100) {
+            BSP_LED_Toggle(LED_RED);
+            cnt = 0;
+        }
+        lv_task_handler();
+        ui_tick();
+    }
+}
+
+void SystemClock_Config(void) {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
     /** Supply configuration update enable
     */
-    HAL_PWREx_ConfigSupply(PWR_SMPS_2V5_SUPPLIES_EXT);
-
+    HAL_PWREx_ConfigSupply(PWR_DIRECT_SMPS_SUPPLY);
     /** Configure the main internal regulator output voltage
     */
     __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
 
-    while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
-
+    while (!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+    /** Macro to configure the PLL clock source
+    */
+    __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
     /** Initializes the RCC Oscillators according to the specified parameters
     * in the RCC_OscInitTypeDef structure.
     */
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
     RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
-    RCC_OscInitStruct.HSIState = RCC_HSI_DIV1;
-    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     RCC_OscInitStruct.PLL.PLLM = 5;
-    RCC_OscInitStruct.PLL.PLLN = 160;
+    RCC_OscInitStruct.PLL.PLLN = 192;
     RCC_OscInitStruct.PLL.PLLP = 2;
     RCC_OscInitStruct.PLL.PLLQ = 8;
     RCC_OscInitStruct.PLL.PLLR = 4;
     RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_2;
     RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
     RCC_OscInitStruct.PLL.PLLFRACN = 0;
-    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-    {
+    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         Error_Handler();
     }
-
     /** Initializes the CPU, AHB and APB buses clocks
     */
-    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                                  |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
-                                  |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+                                  | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2
+                                  | RCC_CLOCKTYPE_D3PCLK1 | RCC_CLOCKTYPE_D1PCLK1;
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
     RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
@@ -79,19 +141,16 @@ void SystemClock_Config(void)
     RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
     RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-    {
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) {
         Error_Handler();
     }
 }
 
-void MPU_Config(void)
-{
+void MPU_Config(void) {
     MPU_Region_InitTypeDef MPU_InitStruct = {0};
 
     /* Disables the MPU */
     HAL_MPU_Disable();
-
     /** Initializes and configures the Region and the memory to be protected
     */
     MPU_InitStruct.Enable = MPU_REGION_ENABLE;
@@ -107,7 +166,6 @@ void MPU_Config(void)
     MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
-
     /** Initializes and configures the Region and the memory to be protected
     */
     MPU_InitStruct.Number = MPU_REGION_NUMBER1;
@@ -120,7 +178,6 @@ void MPU_Config(void)
     MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
 
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
-
     /** Initializes and configures the Region and the memory to be protected
     */
     MPU_InitStruct.Number = MPU_REGION_NUMBER2;
@@ -134,38 +191,4 @@ void MPU_Config(void)
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
     /* Enables the MPU */
     HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
-
-}
-
-int main(void) {
-    MPU_Config();
-    SCB_EnableICache();
-    SCB_EnableDCache();
-
-    HAL_Init();
-    SystemClock_Config();
-
-    MX_USART3_UART_Init();
-    printf("Started!\n\r");
-
-    BSP_QSPI_Init_t qspi_init;
-    qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;
-    qspi_init.TransferRate = MT25TL01G_DTR_TRANSFER;
-    qspi_init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
-    BSP_QSPI_Init(0, &qspi_init);
-    BSP_QSPI_EnableMemoryMappedMode(0);
-
-    BSP_LED_Init(LED_RED);
-    BSP_LED_Init(LED_GREEN);
-
-    lcd_init();
-    touchpad_init();
-    lv_init();
-    lv_demo_widgets();
-
-    while (1) {
-        lv_task_handler();
-        BSP_LED_Toggle(LED_RED);
-        HAL_Delay(500);
-    }
 }

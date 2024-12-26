@@ -44,7 +44,7 @@ add_subdirectory(${FREERTOS_KERNEL_PATH} FreeRTOS-Kernel)
 
 # ---------------------------------------------------------------------------------------------------------------------
 
-target_link_libraries(${PROJECT_NAME} PUBLIC bsp lvgl_demos)
+target_link_libraries(${PROJECT_NAME} PUBLIC bsp lv_project lvgl_demos)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E echo "Converting ELF to HEX..."
