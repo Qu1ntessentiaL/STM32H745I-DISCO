@@ -21,7 +21,7 @@ add_executable(${PROJECT_NAME})
 include(Src/sources.cmake)
 
 # ---------------------------------------------------------------------------------------------------------------------
-set(FREERTOS_KERNEL_PATH "Drivers/FreeRTOS-LTS/FreeRTOS/FreeRTOS-Kernel")
+set(FREERTOS_KERNEL_PATH "Drivers/FreeRTOS-Kernel-11.1.0")
 
 add_library(freertos_config INTERFACE)
 
@@ -44,7 +44,7 @@ add_subdirectory(${FREERTOS_KERNEL_PATH} FreeRTOS-Kernel)
 
 # ---------------------------------------------------------------------------------------------------------------------
 
-target_link_libraries(${PROJECT_NAME} PUBLIC bsp lv_project lvgl_demos)
+target_link_libraries(${PROJECT_NAME} PUBLIC bsp eez-project lvgl_demos freertos_kernel)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E echo "Converting ELF to HEX..."
