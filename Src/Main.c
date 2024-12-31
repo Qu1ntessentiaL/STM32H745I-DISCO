@@ -13,21 +13,14 @@
 #include "lvgl.h"
 #include "lvgl_port_lcd.h"
 #include "lvgl_port_touchpad.h"
-#include "../Drivers/lvgl/demos/lv_demos.h"
-#include "../Drivers/lvgl/demos/widgets/lv_demo_widgets.h"
+//#include "../Drivers/lvgl/demos/lv_demos.h"
+//#include "../Drivers/lvgl/demos/widgets/lv_demo_widgets.h"
 
 #include "../eez-ui/src/ui/ui.h"
-
-#define EXTFLASH __attribute__((section(".extflash_text")))
 
 void Error_Handler(void) {
     __disable_irq();
     while (1) {}
-}
-
-int __io_putchar(int ch) {
-    HAL_UART_Transmit(&huart3, (uint8_t *) &ch, 1, HAL_MAX_DELAY);
-    return ch;
 }
 
 #ifndef HSEM_ID_0
@@ -35,7 +28,6 @@ int __io_putchar(int ch) {
 #endif
 
 void SystemClock_Config(void);
-
 void MPU_Config(void);
 
 uint8_t cnt = 0;
@@ -72,6 +64,16 @@ int main(void) {
     if (timeout < 0) {
         Error_Handler();
     }
+
+    COM_InitTypeDef COM_Init;
+    COM_Init.BaudRate = 115200;
+    COM_Init.WordLength = UART_WORDLENGTH_8B;
+    COM_Init.StopBits = UART_STOPBITS_1;
+    COM_Init.Parity = UART_PARITY_NONE;
+    COM_Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    BSP_COM_Init(COM1, &COM_Init);
+
+    printf("USART3 inited!\r\n");
 
     BSP_QSPI_Init_t qspi_init;
     qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;

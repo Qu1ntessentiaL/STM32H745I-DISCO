@@ -21,15 +21,15 @@
 #define STM32H745I_DISCO_CONF_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
 
 /* COM define */
-#define USE_COM_LOG                         0U
-#define USE_BSP_COM_FEATURE                 0U
+#define USE_COM_LOG                         1U
+#define USE_BSP_COM_FEATURE                 1U
 
 /* Touch controllers defines */
 #define USE_FT5336_TS_CTRL                 1U

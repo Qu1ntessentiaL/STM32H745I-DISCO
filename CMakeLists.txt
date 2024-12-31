@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(Drivers/BSP)
 add_subdirectory(Drivers/CMSIS)
 add_subdirectory(Drivers/STM32H7xx_HAL_Driver)
-add_subdirectory(Drivers/lvgl)
+add_subdirectory(Drivers/lvgl_8.1.1)
 add_subdirectory(eez-ui)
 
 add_executable(${PROJECT_NAME})
